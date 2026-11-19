@@ -4,7 +4,6 @@ export * from './BlogCategoryFilter';
 export * from './BlogGrid';
 export * from './BlogImage';
 export * from './BlogsEmptyState';
-export * from './BlogsErrorState';
 export * from './BlogsPageHeader';
 export * from './FeaturedBlog';
 export * from './LoadMoreButton';

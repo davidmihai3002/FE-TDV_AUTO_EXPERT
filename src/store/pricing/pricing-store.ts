@@ -13,7 +13,9 @@ import {
   lessonsLabel,
   postQuote,
   rateLabel,
+  toUiError,
   type PricingUrlSelection,
+  type UiError,
   type StepId,
 } from '@/libs';
 import type {
@@ -48,6 +50,7 @@ export const PricingStore = types
     quoteStatus: types.optional(Status, 'idle'),
     /** the selected car disappeared between page load and the quote (404) */
     carGone: false,
+    optionsError: types.maybeNull(types.frozen<UiError>()),
   })
   .volatile(() => ({ quoteAbort: null as AbortController | null, quoteTimer: undefined as number | undefined }))
   .views((self) => ({
@@ -260,6 +263,7 @@ export const PricingStore = types
           receiveOptions(options, fromUrl);
         } catch (e) {
           self.optionsStatus = 'error';
+          self.optionsError = toUiError(e);
           if (import.meta.env.DEV) console.warn('[pricing] options failed', e);
         }
       }),

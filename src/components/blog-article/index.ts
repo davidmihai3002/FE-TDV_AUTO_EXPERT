@@ -6,7 +6,6 @@ export * from './ArticleHero';
 export * from './ArticleSeo';
 export * from './ArticleShareButton';
 export * from './ArticleSkeleton';
-export * from './ArticleStates';
 export * from './ArticleTocBar';
 export * from './ArticleTocSidebar';
 export * from './copy';

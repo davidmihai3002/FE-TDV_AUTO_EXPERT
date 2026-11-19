@@ -1,5 +1,5 @@
 import { flow, types, type Instance } from 'mobx-state-tree';
-import { ApiError, getFleet } from '@/libs';
+import { ApiError, getFleet, toUiError, type UiError } from '@/libs';
 import type { FleetFacets, FleetFilters, FleetListResponse } from '@/types';
 import { RequestStatus } from '../models/request-status';
 import { FleetCarModel } from './fleet-car-model';
@@ -13,7 +13,7 @@ export const FleetStore = types
     facets: types.maybeNull(types.frozen<FleetFacets>()),
     filters: types.optional(types.frozen<FleetFilters>(), {}),
     status: types.optional(RequestStatus, 'idle'),
-    errorStatus: types.maybeNull(types.number),
+    error: types.maybeNull(types.frozen<UiError>()),
   })
   .volatile(() => ({ abort: null as AbortController | null }))
   .views((self) => ({
@@ -44,7 +44,7 @@ export const FleetStore = types
       self.abort = ctrl;
       self.filters = filters;
       self.status = 'pending';
-      self.errorStatus = null;
+      self.error = null;
       try {
         const res: FleetListResponse = yield getFleet(filters, ctrl.signal);
         self.items.replace(res.items as never);
@@ -54,7 +54,7 @@ export const FleetStore = types
       } catch (e) {
         if (isAbortError(e)) return;
         self.status = 'error';
-        self.errorStatus = e instanceof ApiError ? (e.status ?? 0) : 0;
+        self.error = toUiError(e);
         if (import.meta.env.DEV) console.warn('[fleet] fetch failed', e);
       }
     }),

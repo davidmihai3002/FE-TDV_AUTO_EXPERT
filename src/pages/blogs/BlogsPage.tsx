@@ -8,12 +8,12 @@ import {
   BlogCategoryFilter,
   BlogGrid,
   BlogsEmptyState,
-  BlogsErrorState,
   BlogsPageHeader,
   FeaturedBlog,
   FeaturedBlogSkeleton,
   LoadMoreButton,
 } from '@/components/blogs';
+import { InlineError } from '@/components/feedback/InlineError';
 import { ROUTES } from '@/config';
 import { BLOGS_PARAM, MD_UP, buildCategoryHref, parseBlogsSearchParams, useMediaQuery, withPages } from '@/libs';
 import { PAGE_SIZE, useStore } from '@/store';
@@ -58,7 +58,7 @@ const BlogsPage = observer(function BlogsPage() {
   const onReset = useCallback(() => navigate(ROUTES.blog), [navigate]);
   const onRetry = useCallback(() => {
     store.retry();
-    void store.syncFromUrl({ category, search, pages });
+    return store.syncFromUrl({ category, search, pages });
   }, [store, category, search, pages]);
 
   const variant = isDesktop ? 'card' : 'row';
@@ -123,7 +123,12 @@ const BlogsPage = observer(function BlogsPage() {
         </p>
 
         {store.status === 'error' ? (
-          <BlogsErrorState onRetry={onRetry} />
+          <InlineError
+            error={store.error ?? { variant: 'server', userMessage: '', retryable: true }}
+            title={BLOGS_COPY.error.title}
+            section="articole"
+            onRetry={onRetry}
+          />
         ) : initialLoading ? (
           <BlogGrid variant={variant} busy>
             {Array.from({ length: isDesktop ? PAGE_SIZE : 3 }, (_, i) => (

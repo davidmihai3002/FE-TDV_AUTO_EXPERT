@@ -6,11 +6,11 @@ import {
   LiveEstimatePanel,
   PricingDesktopForm,
   PricingEmpty,
-  PricingError,
   PricingIntro,
   PricingSkeleton,
   PricingWizard,
 } from '@/components/pricing';
+import { InlineError } from '@/components/feedback/InlineError';
 import { ROUTES } from '@/config';
 import {
   PRICING_COPY,
@@ -74,10 +74,13 @@ const PricingPage = observer(function PricingPage() {
 
   const body = (variant: 'desktop' | 'mobile') =>
     store.optionsStatus === 'error' ? (
-      <PricingError
+      <InlineError
+        error={store.optionsError ?? { variant: 'server', userMessage: '', retryable: true }}
+        title={PRICING_COPY.state.loadError}
+        section="prețuri"
         onRetry={() => {
           store.retry();
-          void store.fetchOptions(initialUrl.current);
+          return store.fetchOptions(initialUrl.current);
         }}
       />
     ) : loading ? (

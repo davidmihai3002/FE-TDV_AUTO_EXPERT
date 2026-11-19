@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import { Button, Icon, Skeleton } from '@/components/ui';
+import { Button, Skeleton } from '@/components/ui';
 import { PRICING_COPY } from '@/libs';
 import { useStore } from '@/store';
 
@@ -26,18 +26,6 @@ export function PricingSkeleton({ variant }: { variant: 'desktop' | 'mobile' }) 
           <Skeleton className="h-32 rounded-xl" />
         </>
       )}
-    </div>
-  );
-}
-
-export function PricingError({ onRetry }: { onRetry: () => void }) {
-  return (
-    <div role="alert" className="flex flex-col items-start gap-4 p-md rounded-xl bg-surface-container border border-surface-variant">
-      <p className="flex items-center gap-2 text-body-md text-on-surface">
-        <Icon name="error" className="text-error" />
-        {PRICING_COPY.state.loadError}
-      </p>
-      <Button onClick={onRetry}>{PRICING_COPY.state.retry}</Button>
     </div>
   );
 }

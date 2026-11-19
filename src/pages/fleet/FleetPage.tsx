@@ -7,12 +7,12 @@ import {
   FleetCard,
   FleetCardSkeleton,
   FleetEmptyState,
-  FleetErrorState,
   FleetFilters,
   FleetGrid,
   FleetHero,
   FleetNotice,
 } from '@/components/fleet';
+import { InlineError } from '@/components/feedback/InlineError';
 import { ROUTES } from '@/config';
 import {
   BOOKING_PARAM,
@@ -140,7 +140,13 @@ const FleetPage = observer(function FleetPage() {
         )}
 
         {fleet.status === 'error' ? (
-          <FleetErrorState onRetry={() => void fleet.fetch(filters)} />
+          <InlineError
+            error={fleet.error ?? { variant: 'server', userMessage: '', retryable: true }}
+            title={FLEET_COPY.error.title}
+            section="mașini"
+            onRetry={() => fleet.fetch(filters)}
+            className="my-md"
+          />
         ) : showSkeleton ? (
           <>
             <p className="sr-only" aria-live="polite">

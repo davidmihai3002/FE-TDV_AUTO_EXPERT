@@ -1,5 +1,5 @@
 import { flow, types, type Instance } from 'mobx-state-tree';
-import { ApiError, BLOGS_MAX_PAGE_SIZE, getBlogCategories, getBlogs, isValidCategorySlug } from '@/libs';
+import { ApiError, BLOGS_MAX_PAGE_SIZE, getBlogCategories, getBlogs, isValidCategorySlug, toUiError, type UiError } from '@/libs';
 import type { BlogCategory, BlogListItem, BlogListQuery, Paginated } from '@/types';
 import { BlogCategoryModel, BlogListItemModel } from './models';
 
@@ -30,6 +30,7 @@ export const BlogsListStore = types
     featuredStatus: types.optional(Status, 'idle'),
     categoriesStatus: types.optional(Status, 'idle'),
     loadMoreError: false,
+    error: types.maybeNull(types.frozen<UiError>()),
   })
   .volatile(() => ({ abort: null as AbortController | null, pendingKey: null as string | null }))
   .views((self) => ({
@@ -116,6 +117,7 @@ export const BlogsListStore = types
       }
 
       self.status = 'loading';
+      self.error = null;
       const wanted = PAGE_SIZE * pages;
       const chunk = Math.min(wanted, BLOGS_MAX_PAGE_SIZE);
       const requests = Math.ceil(wanted / chunk);
@@ -134,6 +136,7 @@ export const BlogsListStore = types
       } catch (e) {
         if (isAbort(e)) return;
         self.status = 'error';
+        self.error = toUiError(e);
         self.pendingKey = null;
         if (import.meta.env.DEV) console.warn('[blogs] list failed', e);
       }

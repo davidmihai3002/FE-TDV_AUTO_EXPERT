@@ -1,5 +1,5 @@
 import { flow, types, type Instance } from 'mobx-state-tree';
-import { ApiError, buildToc, getBlogArticle } from '@/libs';
+import { ApiError, buildToc, getBlogArticle, toUiError, type UiError } from '@/libs';
 import type { ArticleImage, BlogArticle, BlogContentV2, TocItem } from '@/types';
 
 const Ref = types.model('BlogRef', { slug: types.string, name: types.string });
@@ -62,11 +62,15 @@ export const BlogArticleStore = types
     /** cache across navigation, keyed by slug */
     articles: types.map(BlogArticleModel),
     statuses: types.map(types.enumeration<ArticleStatus>('ArticleStatus', ['idle', 'loading', 'loaded', 'notFound', 'error'])),
+    errors: types.map(types.frozen<UiError>()),
   })
   .volatile(() => ({ abort: null as AbortController | null, inFlightSlug: null as string | null }))
   .views((self) => ({
     articleBySlug(slug: string) {
       return self.articles.get(slug);
+    },
+    errorOf(slug: string): UiError | undefined {
+      return self.errors.get(slug);
     },
     statusOf(slug: string): ArticleStatus {
       return self.statuses.get(slug) ?? 'idle';
@@ -93,6 +97,7 @@ export const BlogArticleStore = types
         if (isAbort(e)) return;
         const notFound = e instanceof ApiError && (e.status === 404 || e.status === 400);
         self.statuses.set(slug, notFound ? 'notFound' : 'error');
+        self.errors.set(slug, toUiError(e));
         if (import.meta.env.DEV && !notFound) console.warn('[blog-article] fetch failed', e);
       } finally {
         if (self.inFlightSlug === slug) self.inFlightSlug = null;
@@ -102,7 +107,8 @@ export const BlogArticleStore = types
       fetchArticle,
       retryArticle(slug: string) {
         self.statuses.set(slug, 'idle');
-        void fetchArticle(slug);
+        self.errors.delete(slug);
+        return fetchArticle(slug);
       },
     };
   });

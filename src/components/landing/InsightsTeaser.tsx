@@ -1,7 +1,8 @@
 import { Link } from 'react-router';
 import { Button, Icon, Skeleton } from '@/components/ui';
 import { ROUTES } from '@/config';
-import { cn, formatDate } from '@/libs';
+import { InlineError } from '@/components/feedback/InlineError';
+import { cn, formatDate, type UiError } from '@/libs';
 import type { BlogListItem, LandingSection } from '@/types';
 import { insightCategoryTone } from './insight-category-tone';
 import { LANDING_COPY } from './landing-copy';
@@ -65,10 +66,11 @@ export interface InsightsTeaserProps {
   section: LandingSection;
   posts: BlogListItem[];
   status: 'idle' | 'loading' | 'success' | 'error';
-  onRetry: () => void;
+  error?: UiError | null;
+  onRetry: () => void | Promise<unknown>;
 }
 
-export function InsightsTeaser({ section, posts, status, onRetry }: InsightsTeaserProps) {
+export function InsightsTeaser({ section, posts, status, error, onRetry }: InsightsTeaserProps) {
   if (status === 'success' && posts.length === 0) return null; // nothing to tease
   const href = section.primaryCtaHref ?? ROUTES.blog;
   const label = section.primaryCtaLabel ?? LANDING_COPY.viewAllArticles;
@@ -85,12 +87,12 @@ export function InsightsTeaser({ section, posts, status, onRetry }: InsightsTeas
         {section.subtitle && <p className="mt-1 md:mt-0 text-body-md leading-relaxed md:leading-6 text-on-surface-variant">{section.subtitle}</p>}
       </div>
       {status === 'error' ? (
-        <p className="text-body-md text-on-surface-variant">
-          {LANDING_COPY.blogsError}{' '}
-          <button type="button" onClick={onRetry} className="text-secondary hover:underline">
-            {LANDING_COPY.blogsRetry}
-          </button>
-        </p>
+        <InlineError
+          error={error ?? { variant: 'server', userMessage: '', retryable: true }}
+          title={LANDING_COPY.blogsError}
+          section="articole"
+          onRetry={onRetry}
+        />
       ) : (
         <ul role="list" aria-busy={status !== 'success' || undefined} className="flex flex-col gap-3 md:grid md:grid-cols-3 md:gap-gutter">
           {status === 'success'

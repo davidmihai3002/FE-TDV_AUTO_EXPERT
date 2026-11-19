@@ -4,9 +4,7 @@ import { useLocation, useParams } from 'react-router';
 import {
   ArticleBody,
   ArticleCtaCard,
-  ArticleError,
   ArticleHero,
-  ArticleNotFound,
   ArticleSeo,
   ArticleSkeleton,
   ArticleTocBar,
@@ -15,6 +13,7 @@ import {
   RelatedCarousel,
   RelatedInsightsCard,
 } from '@/components/blog-article';
+import { BLOG_NOT_FOUND_COPY, ErrorPage } from '@/components/feedback';
 import { useActiveSection, useHideOnScroll } from '@/libs';
 import { useStore, type BlogArticleInstance } from '@/store';
 
@@ -40,8 +39,28 @@ const BlogArticlePage = observer(function BlogArticlePage() {
   }, []);
 
   if (article) return <ArticleView article={article} />;
-  if (status === 'notFound') return <ArticleNotFound />;
-  if (status === 'error') return <ArticleError onRetry={() => blogArticle.retryArticle(slug)} />;
+  // the mobile article header is fixed (72px): keep the error content clear of it
+  if (status === 'notFound') {
+    return (
+      <div className="max-lg:pt-[72px]">
+        <ErrorPage variant="not-found" copy={BLOG_NOT_FOUND_COPY} />
+      </div>
+    );
+  }
+  if (status === 'error') {
+    const error = blogArticle.errorOf(slug);
+    return (
+      <div className="max-lg:pt-[72px]">
+        <ErrorPage
+          variant={error?.variant === 'offline' ? 'offline' : 'server'}
+          statusCode={error?.statusCode}
+          connectionError={error?.variant === 'server' && error.statusCode === undefined}
+          requestId={error?.requestId}
+          onRetry={() => blogArticle.retryArticle(slug)}
+        />
+      </div>
+    );
+  }
   return <ArticleSkeleton />;
 });
 

@@ -4,7 +4,6 @@ export * from './FleetCardBadge';
 export * from './FleetCardSkeleton';
 export * from './FleetCardStats';
 export * from './FleetEmptyState';
-export * from './FleetErrorState';
 export * from './FleetFilters';
 export * from './FleetGrid';
 export * from './FleetHero';

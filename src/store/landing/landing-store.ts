@@ -1,5 +1,5 @@
 import { flow, types, type Instance } from 'mobx-state-tree';
-import { getBlogs, getLanding } from '@/libs';
+import { getBlogs, getLanding, isAbortError, toUiError, type UiError } from '@/libs';
 import type { BlogListItem, LandingResponse, LandingSection, Paginated } from '@/types';
 
 const Status = types.enumeration('LandingStatus', ['idle', 'loading', 'success', 'error']);
@@ -12,6 +12,8 @@ export const LandingStore = types
     status: types.optional(Status, 'idle'),
     latestPosts: types.optional(types.frozen<BlogListItem[]>(), []),
     latestStatus: types.optional(Status, 'idle'),
+    error: types.maybeNull(types.frozen<UiError>()),
+    latestError: types.maybeNull(types.frozen<UiError>()),
   })
   .views((self) => ({
     section(key: keyof LandingResponse['sections']): LandingSection | undefined {
@@ -26,7 +28,9 @@ export const LandingStore = types
         self.content = yield getLanding();
         self.status = 'success';
       } catch (e) {
+        if (isAbortError(e)) return;
         self.status = 'error';
+        self.error = toUiError(e);
         if (import.meta.env.DEV) console.warn('[landing] fetch failed', e);
       }
     }),
@@ -38,15 +42,19 @@ export const LandingStore = types
         self.latestPosts = res.items;
         self.latestStatus = 'success';
       } catch (e) {
+        if (isAbortError(e)) return;
         self.latestStatus = 'error';
+        self.latestError = toUiError(e);
         if (import.meta.env.DEV) console.warn('[landing] latest posts failed', e);
       }
     }),
     retryLanding() {
       self.status = 'idle';
+      self.error = null;
     },
     retryLatest() {
       self.latestStatus = 'idle';
+      self.latestError = null;
     },
   }));
 

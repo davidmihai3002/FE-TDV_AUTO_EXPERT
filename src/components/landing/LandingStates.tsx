@@ -1,4 +1,4 @@
-import { Button, Icon, Skeleton } from '@/components/ui';
+import { Skeleton } from '@/components/ui';
 import { LANDING_COPY } from './landing-copy';
 
 export function LandingSkeleton() {
@@ -30,17 +30,6 @@ export function LandingSkeleton() {
           <Skeleton key={i} className="h-44" />
         ))}
       </div>
-    </div>
-  );
-}
-
-export function LandingError({ onRetry }: { onRetry: () => void }) {
-  return (
-    <div role="alert" className="max-w-2xl mx-auto px-margin-mobile py-xl flex flex-col items-center gap-4 text-center">
-      <Icon name="error" size={48} className="text-error" />
-      <h1 className="text-headline-lg-mobile md:text-headline-lg text-primary">{LANDING_COPY.errorTitle}</h1>
-      <p className="text-body-md text-on-surface-variant">{LANDING_COPY.errorBody}</p>
-      <Button onClick={onRetry}>{LANDING_COPY.retry}</Button>
     </div>
   );
 }

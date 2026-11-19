@@ -8,10 +8,10 @@ import {
   Hero,
   InsightsTeaser,
   LANDING_COPY,
-  LandingError,
   LandingSkeleton,
   StatsBand,
 } from '@/components/landing';
+import { ErrorPage } from '@/components/feedback';
 import { ROUTES } from '@/config';
 import { useStore } from '@/store';
 
@@ -54,10 +54,14 @@ const LandingPage = observer(function LandingPage() {
       return (
         <>
           {meta}
-          <LandingError
+          <ErrorPage
+            variant={landing.error?.variant === 'offline' ? 'offline' : 'server'}
+            statusCode={landing.error?.statusCode}
+            connectionError={landing.error?.variant === 'server' && landing.error.statusCode === undefined}
+            requestId={landing.error?.requestId}
             onRetry={() => {
               landing.retryLanding();
-              void landing.fetchLanding();
+              return landing.fetchLanding();
             }}
           />
         </>
@@ -117,9 +121,10 @@ const LandingPage = observer(function LandingPage() {
           section={s.insights}
           posts={landing.latestPosts}
           status={landing.latestStatus}
+          error={landing.latestError}
           onRetry={() => {
             landing.retryLatest();
-            void landing.fetchLatestPosts();
+            return landing.fetchLatestPosts();
           }}
         />
       )}
