@@ -1,5 +1,5 @@
 import { types, type Instance } from 'mobx-state-tree';
-import { BlogsListStore } from './blogs';
+import { BlogArticleStore, BlogsListStore } from './blogs';
 import { BookingStore } from './booking';
 import { FleetStore } from './fleet';
 import { SiteSettingsStore } from './site-settings-store';
@@ -11,7 +11,8 @@ export const RootStore = types.model('RootStore', {
   fleet: types.optional(FleetStore, {}),
   booking: types.optional(BookingStore, {}),
   blogsList: types.optional(BlogsListStore, {}),
-  // page tickets add: landing (02), pricing (03), blogArticle (05)
+  blogArticle: types.optional(BlogArticleStore, {}),
+  // page tickets add: landing (02), pricing (03)
 });
 
 export type RootStoreInstance = Instance<typeof RootStore>;
