@@ -13,6 +13,8 @@ export interface SelectOption {
 export interface SelectProps extends FieldBaseProps, Omit<SelectHTMLAttributes<HTMLSelectElement>, 'id' | 'required'> {
   options: SelectOption[];
   placeholder?: string;
+  /** `false` makes the empty option selectable (optional fields, e.g. "Nu știu încă"). */
+  placeholderDisabled?: boolean;
   ref?: Ref<HTMLSelectElement>;
 }
 
@@ -25,6 +27,7 @@ export function Select({
   id,
   options,
   placeholder = VALIDATION_MESSAGES.select,
+  placeholderDisabled = true,
   className,
   ref,
   ...rest
@@ -43,7 +46,7 @@ export function Select({
             className={cn(fieldClasses(ids.invalid), 'h-12 appearance-none pr-10')}
             {...rest}
           >
-            <option value="" disabled>
+            <option value="" disabled={placeholderDisabled}>
               {placeholder}
             </option>
             {options.map((o) => (

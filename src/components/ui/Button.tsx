@@ -1,4 +1,4 @@
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode, Ref } from 'react';
 import { Link, type LinkProps } from 'react-router';
 import { buttonClasses, type ButtonRadius, type ButtonSize, type ButtonVariant } from './button-classes';
 import { Icon } from './Icon';
@@ -24,7 +24,8 @@ type AnchorButtonProps = ButtonBaseProps & { href: string; external?: boolean } 
     AnchorHTMLAttributes<HTMLAnchorElement>,
     'className' | 'children' | 'href'
   >;
-type NativeButtonProps = ButtonBaseProps & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className' | 'children'>;
+type NativeButtonProps = ButtonBaseProps &
+  Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className' | 'children'> & { ref?: Ref<HTMLButtonElement> };
 
 export type ButtonProps = LinkButtonProps | AnchorButtonProps | NativeButtonProps;
 
