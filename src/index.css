@@ -212,3 +212,14 @@
     display: none;
   }
 }
+
+/* Romanian quotation marks for quoted callouts (ticket 05): data text has no quote marks */
+.article-quote {
+  quotes: "„" "”";
+}
+.article-quote::before {
+  content: open-quote;
+}
+.article-quote::after {
+  content: close-quote;
+}
