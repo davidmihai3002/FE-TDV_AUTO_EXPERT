@@ -2,23 +2,112 @@ import type { ApiIssue } from '@/types';
 import { ApiError } from './api-client';
 import { VALIDATION_MESSAGES } from './validation-messages';
 
-/** Romanian user-facing copy for an error. Never shows the API `message`. Final wording owned by ticket 07. */
-export const ERROR_MESSAGES = {
-  network: 'Nu ne putem conecta la server. Verifică conexiunea la internet.',
-  timeout: 'Serverul răspunde greu. Încearcă din nou.',
-  notFound: 'Nu am găsit ce căutai.',
+export type ErrorVariant = 'not-found' | 'server' | 'offline';
+
+export interface UiError {
+  variant: ErrorVariant;
+  statusCode?: number;
+  /** English API message, DEV/debug only — never shown to users */
+  message?: string;
+  /** Romanian, from toUserMessage() */
+  userMessage: string;
+  requestId?: string;
+  retryable: boolean;
+}
+
+/** Romanian user-facing copy for API failures (ticket 07 §5.3). The English API `message` is never displayed. */
+export const API_ERROR_COPY = {
+  validation: 'Unele câmpuri nu sunt completate corect. Verifică datele și încearcă din nou.',
+  badRequest: 'Cererea nu a putut fi procesată. Încearcă din nou.',
+  notFound: 'Nu am găsit ce căutai. Este posibil să fi fost mutat sau șters.',
+  conflict: 'Această cerere a fost deja trimisă. Te contactăm în curând.',
   tooMany: 'Prea multe încercări. Încearcă din nou în câteva minute.',
+  server: 'A apărut o eroare de partea noastră. Încearcă din nou în câteva momente.',
+  unavailable: 'Serviciul este temporar indisponibil. Încearcă din nou în câteva minute.',
+  unexpected: 'A apărut o eroare neașteptată. Încearcă din nou.',
+  offline: 'Nu ești conectat la internet. Verifică conexiunea și încearcă din nou.',
+  network: 'Nu am putut contacta serverul. Încearcă din nou în câteva momente.',
+  timeout: 'Serverul răspunde greu. Încearcă din nou.',
+  parse: 'Am primit un răspuns neașteptat de la server. Încearcă din nou.',
+} as const;
+
+const isOffline = () => typeof navigator !== 'undefined' && navigator.onLine === false;
+
+/** Romanian message for any thrown value; '' for aborted requests (nothing is shown). */
+export function toUserMessage(e: unknown): string {
+  if (!(e instanceof ApiError)) return API_ERROR_COPY.unexpected;
+  switch (e.kind) {
+    case 'abort':
+      return '';
+    case 'network':
+      return isOffline() ? API_ERROR_COPY.offline : API_ERROR_COPY.network;
+    case 'timeout':
+      return API_ERROR_COPY.timeout;
+    case 'parse':
+      return API_ERROR_COPY.parse;
+    case 'http': {
+      const s = e.status ?? 0;
+      if (s === 400 || s === 422) {
+        const validation = Array.isArray(e.body?.message) || (e.body?.issues?.length ?? 0) > 0;
+        return validation ? API_ERROR_COPY.validation : API_ERROR_COPY.badRequest;
+      }
+      if (s === 404 || s === 410) return API_ERROR_COPY.notFound;
+      if (s === 409) return API_ERROR_COPY.conflict;
+      if (s === 429) return API_ERROR_COPY.tooMany;
+      if (s === 500) return API_ERROR_COPY.server;
+      if (s === 502 || s === 503 || s === 504) return API_ERROR_COPY.unavailable;
+      return API_ERROR_COPY.unexpected;
+    }
+  }
+}
+
+/** Maps any thrown value to a UI error (ticket 07 §5.2). Aborted requests have no UI: callers ignore them. */
+export function toUiError(e: unknown): UiError {
+  const userMessage = toUserMessage(e) || API_ERROR_COPY.unexpected;
+  if (e instanceof ApiError) {
+    const base = { userMessage, message: e.message, requestId: e.requestId, statusCode: e.status };
+    switch (e.kind) {
+      case 'network':
+        return isOffline() ? { ...base, variant: 'offline', retryable: true } : { ...base, variant: 'server', retryable: true };
+      case 'timeout':
+      case 'parse':
+      case 'abort':
+        return { ...base, variant: 'server', retryable: true };
+      case 'http': {
+        const s = e.status ?? 0;
+        if (s === 404 || s === 410) return { ...base, variant: 'not-found', retryable: false };
+        return { ...base, variant: 'server', retryable: [408, 429].includes(s) || s >= 500 };
+      }
+    }
+  }
+  // react-router ErrorResponse (notFound() / unknown route)
+  if (e && typeof e === 'object' && 'status' in e && 'statusText' in e) {
+    const status = Number((e as { status: unknown }).status);
+    return status === 404
+      ? { variant: 'not-found', statusCode: 404, userMessage: API_ERROR_COPY.notFound, retryable: false }
+      : { variant: 'server', statusCode: status, userMessage: API_ERROR_COPY.unexpected, retryable: true };
+  }
+  return {
+    variant: isOffline() ? 'offline' : 'server',
+    userMessage,
+    message: e instanceof Error ? e.message : String(e),
+    retryable: true,
+  };
+}
+
+export const isAbortError = (e: unknown) => e instanceof ApiError && e.kind === 'abort';
+
+/** Kept for existing callers (site settings); same wording as toUserMessage. */
+export const ERROR_MESSAGES = {
+  network: API_ERROR_COPY.network,
+  timeout: API_ERROR_COPY.timeout,
+  notFound: API_ERROR_COPY.notFound,
+  tooMany: API_ERROR_COPY.tooMany,
   generic: VALIDATION_MESSAGES.generic,
 } as const;
 
 export function getErrorMessage(e: unknown): string {
-  if (e instanceof ApiError) {
-    if (e.kind === 'network') return ERROR_MESSAGES.network;
-    if (e.kind === 'timeout') return ERROR_MESSAGES.timeout;
-    if (e.status === 404) return ERROR_MESSAGES.notFound;
-    if (e.status === 429) return ERROR_MESSAGES.tooMany;
-  }
-  return ERROR_MESSAGES.generic;
+  return toUserMessage(e) || ERROR_MESSAGES.generic;
 }
 
 const REASON_MESSAGES: Record<string, string> = {
