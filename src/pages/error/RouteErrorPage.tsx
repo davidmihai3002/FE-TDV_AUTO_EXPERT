@@ -1,5 +1,6 @@
 import { isRouteErrorResponse, useRouteError } from 'react-router';
-import { AppLayout, Button, Container, PageTitle } from '@/components';
+import { AppLayout } from '@/components/layout';
+import { Button, Container, PageTitle } from '@/components/ui';
 import { pageTitle } from '@/config';
 import NotFoundPage from '../not-found/NotFoundPage';
 

@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router';
+import { BookingDialog } from '@/components/booking';
 import {
-  BookingDialog,
   FLEET_COPY,
   FleetCard,
   FleetCardSkeleton,
@@ -12,7 +12,7 @@ import {
   FleetGrid,
   FleetHero,
   FleetNotice,
-} from '@/components';
+} from '@/components/fleet';
 import { ROUTES } from '@/config';
 import {
   BOOKING_PARAM,

@@ -13,7 +13,7 @@ import {
   FeaturedBlog,
   FeaturedBlogSkeleton,
   LoadMoreButton,
-} from '@/components';
+} from '@/components/blogs';
 import { ROUTES } from '@/config';
 import { BLOGS_PARAM, MD_UP, buildCategoryHref, parseBlogsSearchParams, useMediaQuery, withPages } from '@/libs';
 import { PAGE_SIZE, useStore } from '@/store';

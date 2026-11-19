@@ -1,4 +1,4 @@
-import { Button, Container, PageTitle } from '@/components';
+import { Button, Container, PageTitle } from '@/components/ui';
 import { ROUTES, pageTitle } from '@/config';
 
 /** Basic 404; final visuals in ticket 07. */

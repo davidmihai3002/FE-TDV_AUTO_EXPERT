@@ -1,4 +1,4 @@
-import { Container, PageTitle } from '@/components';
+import { Container, PageTitle } from '@/components/ui';
 import { pageTitle } from '@/config';
 
 /** Temporary page body until the page's own ticket lands. */
