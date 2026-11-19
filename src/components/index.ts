@@ -2,6 +2,7 @@ export * from './blog-article';
 export * from './blogs';
 export * from './booking';
 export * from './fleet';
+export * from './landing';
 export * from './layout';
 export * from './pricing';
 export * from './ui';
