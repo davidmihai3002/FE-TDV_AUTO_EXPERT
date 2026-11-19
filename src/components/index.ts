@@ -1,6 +1,7 @@
 export * from './blog-article';
 export * from './blogs';
 export * from './booking';
+export * from './feedback';
 export * from './fleet';
 export * from './landing';
 export * from './layout';

@@ -10,3 +10,8 @@ export function useStore(): RootStoreInstance {
   if (!store) throw new Error('useStore must be used inside <StoreProvider>');
   return store;
 }
+
+/** Store when inside <StoreProvider>, else null (root error boundary renders outside the providers). */
+export function useOptionalStore(): RootStoreInstance | null {
+  return useContext(StoreContext);
+}
