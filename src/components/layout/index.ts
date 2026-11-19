@@ -2,8 +2,6 @@ export * from './AppLayout';
 export * from './Footer';
 export * from './Header';
 export * from './Logo';
-export * from './NavProgress';
-export * from './PageFallback';
 export * from './SkipLink';
 export * from './SocialIcon';
 export * from './social-labels';
