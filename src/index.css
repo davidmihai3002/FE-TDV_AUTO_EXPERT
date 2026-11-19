@@ -203,3 +203,12 @@
   background-size: 40px 40px;
 }
 
+
+/* Horizontal scrollers without a visible scrollbar (blog chips, ticket 04) */
+@utility hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
