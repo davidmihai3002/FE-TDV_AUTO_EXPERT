@@ -27,3 +27,9 @@ dist-ssr
 
 # Planning docs (local only)
 tickets/
+
+# AI assistant files (never commit)
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+.mcp.json
