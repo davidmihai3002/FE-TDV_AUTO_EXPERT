@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react';
 import { createBrowserRouter, type RouteObject } from 'react-router';
-import { AppLayout } from '@/components';
+import { AppLayout, PageFallback, type RouteHandle } from '@/components/layout';
 import { NotFoundPage, RouteErrorPage } from '@/pages';
 
 const lazyPage = (load: () => Promise<{ default: ComponentType }>) => async () => ({
@@ -16,13 +16,19 @@ export const router = createBrowserRouter([
   {
     element: <AppLayout />,
     errorElement: <RouteErrorPage />,
+    // shown while the first lazy route module loads (silences React Router's HydrateFallback warning)
+    HydrateFallback: PageFallback,
     children: [
       { index: true, lazy: lazyPage(() => import('@/pages/landing/LandingPage')) },
       { path: 'preturi', lazy: lazyPage(() => import('@/pages/pricing/PricingPage')) },
       // ?rezerva=<slug> opens the BookingDialog (ticket 06)
       { path: 'flota', lazy: lazyPage(() => import('@/pages/fleet/FleetPage')) },
       { path: 'blog', lazy: lazyPage(() => import('@/pages/blogs/BlogsPage')) },
-      { path: 'blog/:slug', lazy: lazyPage(() => import('@/pages/blog-article/BlogArticlePage')) },
+      {
+        path: 'blog/:slug',
+        handle: { headerVariant: 'article' } satisfies RouteHandle,
+        lazy: lazyPage(() => import('@/pages/blog-article/BlogArticlePage')),
+      },
       ...devRoutes,
       // static: already in the main bundle via RouteErrorPage
       { path: '*', Component: NotFoundPage },

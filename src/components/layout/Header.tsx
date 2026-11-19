@@ -5,11 +5,13 @@ import { Button, Icon } from '@/components/ui';
 import { A11Y_LABELS, CTA, PRIMARY_NAV, ROUTES } from '@/config';
 import { MD_UP, cn, getFocusable, useFocusTrap, useLockBodyScroll, useMediaQuery } from '@/libs';
 import { useStore } from '@/store';
+import { ArticleHeaderBar } from './ArticleHeaderBar';
 import { Logo } from './Logo';
 
 const MOBILE_NAV_ID = 'mobile-nav';
 
-export const Header = observer(function Header() {
+/** `variant="article"`: below lg the article header bar replaces this header (route handle, ticket 05). */
+export const Header = observer(function Header({ variant = 'default' }: { variant?: 'default' | 'article' }) {
   const { ui, siteSettings } = useStore();
   const open = ui.isMobileNavOpen;
   const headerRef = useRef<HTMLElement>(null);
@@ -52,7 +54,10 @@ export const Header = observer(function Header() {
     <>
       <header
         ref={headerRef}
-        className="sticky top-0 z-50 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 shadow-lg"
+        className={cn(
+          'sticky top-0 z-50 bg-surface/90 backdrop-blur-md border-b border-outline-variant/30 shadow-lg',
+          variant === 'article' && 'hidden lg:block',
+        )}
       >
         <div className="flex items-center justify-between gap-md w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-4">
           <Link to={ROUTES.home} aria-label={A11Y_LABELS.home} className="shrink-0">
@@ -97,7 +102,7 @@ export const Header = observer(function Header() {
         </div>
       </header>
 
-      <MobileNav ref={drawerRef} open={open} />
+      {variant === 'article' ? <ArticleHeaderBar /> : <MobileNav ref={drawerRef} open={open} />}
     </>
   );
 });
