@@ -1,3 +1,4 @@
+import type { LandingResponse } from '@/types';
 import type { BlogArticle, BlogCategory, BlogListItem, BlogListQuery, Paginated } from '@/types';
 import { api } from '../api-client';
 
@@ -25,4 +26,9 @@ export function getBlogCategories(signal?: AbortSignal): Promise<{ items: BlogCa
 
 export function getBlogArticle(slug: string, signal?: AbortSignal): Promise<BlogArticle> {
   return api.get<BlogArticle>(`/blogs/${encodeURIComponent(slug)}`, { signal });
+}
+
+/** Landing CMS content in one call (ticket 02). */
+export function getLanding(signal?: AbortSignal): Promise<LandingResponse> {
+  return api.get<LandingResponse>('/landing', { signal });
 }
