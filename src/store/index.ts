@@ -1,3 +1,4 @@
+export * from './blogs';
 export * from './booking';
 export * from './fleet';
 export * from './models/request-status';
