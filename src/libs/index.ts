@@ -5,5 +5,6 @@ export * from './env';
 export * from './format';
 export * from './validation-messages';
 export * from './hooks';
+export * from './blogs';
 export * from './booking';
 export * from './fleet';
