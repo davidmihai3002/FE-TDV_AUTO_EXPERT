@@ -9,16 +9,23 @@ import { SkipLink } from './SkipLink';
 
 /** Page chrome. `children` replaces the outlet (used by the route error element). */
 export interface RouteHandle {
-  /** `article`: mobile article header bar + room for the fixed bottom CTA bar (blog article, ticket 05) */
-  headerVariant?: 'default' | 'article';
+  /**
+   * `article`: mobile article header bar + room for the fixed bottom CTA bar (blog article, ticket 05).
+   * `task`: task-focused screen; on mobile a close button replaces the menu (pricing calculator, ticket 03).
+   */
+  headerVariant?: 'default' | 'article' | 'task';
+  /** aria-label of the `task` close button */
+  closeLabel?: string;
 }
 
 export function AppLayout({ children }: { children?: ReactNode }) {
   const { siteSettings } = useStore();
   const matches = useMatches();
-  const variant = matches.some((m) => (m.handle as RouteHandle | undefined)?.headerVariant === 'article')
-    ? 'article'
-    : 'default';
+  const handle = matches
+    .map((m) => m.handle as RouteHandle | undefined)
+    .reverse()
+    .find((h) => h?.headerVariant);
+  const variant = handle?.headerVariant ?? 'default';
 
   useEffect(() => {
     siteSettings.fetch();
@@ -28,7 +35,7 @@ export function AppLayout({ children }: { children?: ReactNode }) {
     <>
       <SkipLink />
       <NavProgress />
-      <Header variant={variant} />
+      <Header variant={variant} closeLabel={handle?.closeLabel} />
       <main id="main" tabIndex={-1} className="flex-1 outline-none">
         <Suspense fallback={<PageFallback />}>{children ?? <Outlet />}</Suspense>
       </main>

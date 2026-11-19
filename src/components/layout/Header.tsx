@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect, useRef } from 'react';
-import { Link, NavLink, useLocation } from 'react-router';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router';
 import { Button, Icon } from '@/components/ui';
 import { A11Y_LABELS, CTA, PRIMARY_NAV, ROUTES } from '@/config';
 import { MD_UP, cn, getFocusable, useFocusTrap, useLockBodyScroll, useMediaQuery } from '@/libs';
@@ -11,7 +11,14 @@ import { Logo } from './Logo';
 const MOBILE_NAV_ID = 'mobile-nav';
 
 /** `variant="article"`: below lg the article header bar replaces this header (route handle, ticket 05). */
-export const Header = observer(function Header({ variant = 'default' }: { variant?: 'default' | 'article' }) {
+export const Header = observer(function Header({
+  variant = 'default',
+  closeLabel,
+}: {
+  variant?: 'default' | 'article' | 'task';
+  closeLabel?: string;
+}) {
+  const navigate = useNavigate();
   const { ui, siteSettings } = useStore();
   const open = ui.isMobileNavOpen;
   const headerRef = useRef<HTMLElement>(null);
@@ -61,7 +68,7 @@ export const Header = observer(function Header({ variant = 'default' }: { varian
       >
         <div className="flex items-center justify-between gap-md w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-4">
           <Link to={ROUTES.home} aria-label={A11Y_LABELS.home} className="shrink-0">
-            <Logo wordmark={siteSettings.settings.brandName} wordmarkClassName="md:max-lg:sr-only" />
+            <Logo wordmark={siteSettings.settings.brandName} wordmarkClassName="max-[359px]:text-[20px] md:max-lg:sr-only" />
           </Link>
 
           <nav aria-label={A11Y_LABELS.primaryNav} className="hidden md:flex items-center gap-gutter">
@@ -88,21 +95,33 @@ export const Header = observer(function Header({ variant = 'default' }: { varian
             {CTA.book.label}
           </Button>
 
-          <button
-            ref={toggleRef}
-            type="button"
-            onClick={ui.toggleMobileNav}
-            aria-expanded={open}
-            aria-controls={MOBILE_NAV_ID}
-            aria-label={open ? A11Y_LABELS.closeMenu : A11Y_LABELS.openMenu}
-            className="md:hidden p-2 -mr-2 text-on-surface rounded-full hover:bg-surface-container-high transition-colors"
-          >
-            <Icon name={open ? 'close' : 'menu'} />
-          </button>
+          {variant === 'task' ? (
+            // task-focused screen: leave the flow instead of opening the menu (back, or home without history)
+            <button
+              type="button"
+              onClick={() => ((window.history.state as { idx?: number } | null)?.idx ? navigate(-1) : navigate(ROUTES.home))}
+              aria-label={closeLabel ?? A11Y_LABELS.close}
+              className="md:hidden p-2 -mr-2 text-on-surface rounded-full hover:bg-surface-container-high transition-colors"
+            >
+              <Icon name="close" />
+            </button>
+          ) : (
+            <button
+              ref={toggleRef}
+              type="button"
+              onClick={ui.toggleMobileNav}
+              aria-expanded={open}
+              aria-controls={MOBILE_NAV_ID}
+              aria-label={open ? A11Y_LABELS.closeMenu : A11Y_LABELS.openMenu}
+              className="md:hidden p-2 -mr-2 text-on-surface rounded-full hover:bg-surface-container-high transition-colors"
+            >
+              <Icon name={open ? 'close' : 'menu'} />
+            </button>
+          )}
         </div>
       </header>
 
-      {variant === 'article' ? <ArticleHeaderBar /> : <MobileNav ref={drawerRef} open={open} />}
+      {variant === 'article' ? <ArticleHeaderBar /> : variant === 'task' ? null : <MobileNav ref={drawerRef} open={open} />}
     </>
   );
 });

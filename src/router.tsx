@@ -20,7 +20,11 @@ export const router = createBrowserRouter([
     HydrateFallback: PageFallback,
     children: [
       { index: true, lazy: lazyPage(() => import('@/pages/landing/LandingPage')) },
-      { path: 'preturi', lazy: lazyPage(() => import('@/pages/pricing/PricingPage')) },
+      {
+        path: 'preturi',
+        handle: { headerVariant: 'task', closeLabel: 'Închide calculatorul de preț' } satisfies RouteHandle,
+        lazy: lazyPage(() => import('@/pages/pricing/PricingPage')),
+      },
       // ?rezerva=<slug> opens the BookingDialog (ticket 06)
       { path: 'flota', lazy: lazyPage(() => import('@/pages/fleet/FleetPage')) },
       { path: 'blog', lazy: lazyPage(() => import('@/pages/blogs/BlogsPage')) },
