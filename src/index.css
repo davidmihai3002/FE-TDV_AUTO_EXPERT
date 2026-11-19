@@ -223,3 +223,51 @@
 .article-quote::after {
   content: close-quote;
 }
+
+/* Pricing calculator (ticket 03): gold slider thumb, wizard step enter animation */
+.pricing-range {
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--color-surface-variant);
+  border-radius: 2px;
+  height: 4px;
+  cursor: pointer;
+}
+.pricing-range--mobile {
+  height: 8px;
+  border-radius: 4px;
+}
+.pricing-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: var(--color-primary-container);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  cursor: pointer;
+}
+.pricing-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 9999px;
+  background: var(--color-primary-container);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  cursor: pointer;
+}
+@keyframes pricing-step-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pricing-step-in {
+    animation: pricing-step-in 0.3s ease-out;
+  }
+}
