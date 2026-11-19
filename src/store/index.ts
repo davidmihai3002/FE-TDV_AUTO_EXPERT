@@ -1,6 +1,7 @@
 export * from './blogs';
 export * from './booking';
 export * from './fleet';
+export * from './pricing';
 export * from './models/request-status';
 export * from './root-store';
 export * from './site-settings-store';
