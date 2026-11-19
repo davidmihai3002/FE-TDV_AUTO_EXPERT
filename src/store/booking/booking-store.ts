@@ -2,7 +2,6 @@ import { flow, getRoot, getSnapshot, types, type Instance } from 'mobx-state-tre
 import {
   ApiError,
   FIELD_ORDER,
-  PRICING_QUOTE_ENABLED,
   createBooking,
   getFleetCar,
   mapApiIssuesToFieldErrors,
@@ -106,13 +105,17 @@ export const BookingStore = types
     function scheduleEstimate() {
       clearEstimateWork();
       const n = self.draft.lessonsCount;
-      if (!PRICING_QUOTE_ENABLED || !self.car || n == null) {
+      if (!self.car || n == null) {
         self.estimate = null;
         self.estimateStatus = 'idle';
         return;
       }
       if (!self.estimate) self.estimateStatus = 'loading'; // refetch keeps the previous value (no flicker)
-      self.estimateTimer = window.setTimeout(() => void fetchEstimate(n), 300);
+      // flows must run as store actions: call the public action (a timer has no MST context)
+      self.estimateTimer = window.setTimeout(
+        () => void (self as unknown as { fetchEstimate(n: number): Promise<void> }).fetchEstimate(n),
+        300,
+      );
     }
 
     function open(car: FleetCar, prefill: BookingPrefill = {}, source: 'card' | 'deeplink' = 'card') {
@@ -132,6 +135,7 @@ export const BookingStore = types
     }
 
     return {
+      fetchEstimate,
       open,
       /** `?rezerva=<slug>`: use the loaded fleet first, else GET /fleet/:slug (car may be filtered out). */
       openForSlug: flow(function* openForSlug(slug: string, prefill: BookingPrefill) {
