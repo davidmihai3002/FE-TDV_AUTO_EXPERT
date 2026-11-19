@@ -1,4 +1,4 @@
-import type { BlogCategory, BlogListItem, BlogListQuery, Paginated } from '@/types';
+import type { BlogArticle, BlogCategory, BlogListItem, BlogListQuery, Paginated } from '@/types';
 import { api } from '../api-client';
 
 /** API caps pageSize at 24. */
@@ -21,4 +21,8 @@ export function getBlogs(query: BlogListQuery, signal?: AbortSignal): Promise<Pa
 
 export function getBlogCategories(signal?: AbortSignal): Promise<{ items: BlogCategory[] }> {
   return api.get<{ items: BlogCategory[] }>('/blogs/categories', { signal });
+}
+
+export function getBlogArticle(slug: string, signal?: AbortSignal): Promise<BlogArticle> {
+  return api.get<BlogArticle>(`/blogs/${encodeURIComponent(slug)}`, { signal });
 }
