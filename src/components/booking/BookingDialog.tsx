@@ -14,7 +14,6 @@ export interface BookingDialogProps {
   onClose: () => void;
 }
 
-/** 01 Dialog: centred 560px modal from md, full-screen sheet below. Reads `booking` from the store. */
 export const BookingDialog = observer(function BookingDialog({ onClose }: BookingDialogProps) {
   const { booking, siteSettings } = useStore();
   const formId = useId();
@@ -24,7 +23,6 @@ export const BookingDialog = observer(function BookingDialog({ onClose }: Bookin
   const car = booking.car;
   const success = booking.status === 'success';
 
-  // Dialog wants a RefObject for initial focus; the form registers fields by name after render, so read lazily.
   const firstFieldRef = useMemo<RefObject<HTMLElement | null>>(
     () => ({
       get current() {
@@ -34,11 +32,9 @@ export const BookingDialog = observer(function BookingDialog({ onClose }: Bookin
     [],
   );
 
-  // After a failed submit attempt, move focus to the first invalid field.
   const { status, firstInvalidField } = booking;
   useEffect(() => {
     if (status === 'error' && firstInvalidField) fieldRefs.current[firstInvalidField]?.focus();
-    // only when a submit settles, not on every keystroke
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 

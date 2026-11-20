@@ -6,7 +6,6 @@ export interface FleetSpecRowProps {
   value: string;
 }
 
-/** One row of the desktop spec table; parent is a `<dl>`. */
 export function FleetSpecRow({ icon, label, value }: FleetSpecRowProps) {
   return (
     <div className="flex justify-between items-center gap-3 border-b border-outline-variant pb-1">

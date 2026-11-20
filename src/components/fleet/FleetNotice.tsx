@@ -6,7 +6,6 @@ export interface FleetNoticeProps {
   onDismiss: () => void;
 }
 
-/** Inline status banner above the grid (no auto-dismiss). */
 export function FleetNotice({ message, onDismiss }: FleetNoticeProps) {
   return (
     <div

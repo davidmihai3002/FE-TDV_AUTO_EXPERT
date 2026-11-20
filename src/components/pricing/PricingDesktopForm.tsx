@@ -7,7 +7,6 @@ import { OptionCardGroup } from './OptionCardGroup';
 import { PricingSection } from './PricingSection';
 import { COLUMNS, stepOptions } from './step-options';
 
-/** All 5 sections stacked (80px apart). */
 export const PricingDesktopForm = observer(function PricingDesktopForm({ store }: { store: PricingStoreInstance }) {
   const s = store.selection;
   const lessons = store.options!.lessons;

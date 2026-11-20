@@ -9,7 +9,6 @@ export interface BlogGridProps {
   children: ReactNode;
 }
 
-/** `<ul role="list">`: 1/2/3-column grid of cards at md+, a column of rows on mobile. */
 export function BlogGrid({ id, variant, busy, dimmed, children }: BlogGridProps) {
   return (
     <ul

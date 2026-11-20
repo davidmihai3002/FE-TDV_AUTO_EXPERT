@@ -2,7 +2,6 @@ import { Accordion } from '@/components/ui';
 import type { Faq, LandingSection } from '@/types';
 import { SectionEyebrow } from './SectionEyebrow';
 
-/** 01's Accordion (native <details>): several items may be open; keyboard-accessible. */
 export function FaqSection({ section, faqs }: { section: LandingSection; faqs: Faq[] }) {
   return (
     <section

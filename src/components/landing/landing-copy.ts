@@ -1,4 +1,3 @@
-/** Landing UI chrome (ticket 02 §5.1). Marketing copy comes from GET /landing. Romanian only (D1). */
 export const LANDING_COPY = {
   readMore: 'Citește mai mult',
   readMoreAria: (title: string) => `Citește mai mult: ${title}`,

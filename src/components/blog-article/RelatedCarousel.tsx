@@ -5,7 +5,6 @@ import { ROUTES } from '@/config';
 import type { RelatedArticle } from '@/types';
 import { ARTICLE_COPY } from './copy';
 
-/** Mobile "Continuă să înveți": snap carousel of 256px cards, each one stretched link. */
 export function RelatedCarousel({ items }: { items: RelatedArticle[] }) {
   const headingId = useId();
   if (!items.length) return null;

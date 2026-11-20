@@ -9,7 +9,6 @@ import { StepsBlock } from './StepsBlock';
 
 type BlockMap = { [K in ContentBlock['type']]: ComponentType<{ block: Extract<ContentBlock, { type: K }> }> };
 
-/** `satisfies` makes type-checking fail when a block type is added to the union without a component. */
 export const blockComponents = {
   paragraph: ParagraphBlock,
   heading: HeadingBlock,

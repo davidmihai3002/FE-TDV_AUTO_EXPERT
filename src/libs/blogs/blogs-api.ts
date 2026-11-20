@@ -2,7 +2,6 @@ import type { LandingResponse } from '@/types';
 import type { BlogArticle, BlogCategory, BlogListItem, BlogListQuery, Paginated } from '@/types';
 import { api } from '../api-client';
 
-/** API caps pageSize at 24. */
 export const BLOGS_MAX_PAGE_SIZE = 24;
 
 export function getBlogs(query: BlogListQuery, signal?: AbortSignal): Promise<Paginated<BlogListItem>> {
@@ -28,7 +27,6 @@ export function getBlogArticle(slug: string, signal?: AbortSignal): Promise<Blog
   return api.get<BlogArticle>(`/blogs/${encodeURIComponent(slug)}`, { signal });
 }
 
-/** Landing CMS content in one call (ticket 02). */
 export function getLanding(signal?: AbortSignal): Promise<LandingResponse> {
   return api.get<LandingResponse>('/landing', { signal });
 }

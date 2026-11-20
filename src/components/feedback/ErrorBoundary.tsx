@@ -5,7 +5,6 @@ import { ErrorPage } from './ErrorPage/ErrorPage';
 export interface ErrorBoundaryProps {
   children: ReactNode;
   fallback?: (args: { error: unknown; reset: () => void }) => ReactNode;
-  /** reset when any of these change (e.g. location.pathname) */
   resetKeys?: unknown[];
   onError?: (error: unknown, info: ErrorInfo) => void;
 }
@@ -15,7 +14,6 @@ interface State {
   keys?: unknown[];
 }
 
-/** Last-resort crash screen (root, outside the router) and reusable around risky widgets. */
 export class ErrorBoundary extends Component<ErrorBoundaryProps, State> {
   state: State = { error: null, keys: this.props.resetKeys };
 

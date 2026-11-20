@@ -8,9 +8,7 @@ export interface DialogProps {
   onClose: () => void;
   title: string;
   description?: ReactNode;
-  /** Desktop width; mobile is always a full-screen sheet. */
   size?: 'sm' | 'md' | 'lg';
-  /** Esc, backdrop click and the close button. */
   dismissible?: boolean;
   initialFocusRef?: RefObject<HTMLElement | null>;
   footer?: ReactNode;
@@ -26,9 +24,7 @@ function prefersReducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
-/** Controlled modal on top of the native `<dialog>` (top layer, inert background, Esc via `cancel`). */
 export function Dialog(props: DialogProps) {
-  // Nothing is mounted while closed, so form state resets on reopen unless the parent keeps it.
   if (!props.open) return null;
   return <DialogPanel {...props} />;
 }
@@ -78,19 +74,17 @@ function DialogPanel({
       if (dialog.open) dialog.close();
       opener?.focus?.();
     };
-    // run once per open
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function onCancel(e: React.SyntheticEvent<HTMLDialogElement>) {
-    // Native Esc handling: always prevent so React state stays the source of truth
     e.preventDefault();
     requestClose();
   }
 
   function onBackdropClick(e: React.MouseEvent<HTMLDialogElement>) {
     if (e.target !== dialogRef.current) return;
-    if (!window.matchMedia('(min-width: 768px)').matches) return; // no visible backdrop on the mobile sheet
+    if (!window.matchMedia('(min-width: 768px)').matches) return;
     const r = dialogRef.current.getBoundingClientRect();
     const outside = e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
     if (outside) requestClose();
@@ -106,15 +100,11 @@ function DialogPanel({
       onCancel={onCancel}
       onClick={onBackdropClick}
       className={cn(
-        // reset native dialog styles
         'p-0 border-0 text-on-surface bg-surface-container-low overflow-hidden flex flex-col',
-        // mobile: full-screen sheet
         'fixed inset-0 w-full h-dvh max-w-none max-h-none m-0 rounded-none',
-        // desktop: centred panel
         'md:m-auto md:h-fit md:w-[calc(100%-2*var(--spacing-margin-desktop))] md:max-h-[min(90dvh,840px)]',
         'md:rounded-xl md:border md:border-outline-variant/30 md:shadow-deep',
         SIZES[size],
-        // motion: enter via @starting-style, exit via `closing`
         'transition-[opacity,translate,scale] duration-200 ease-out',
         'starting:opacity-0 starting:translate-y-4 md:starting:translate-y-0 md:starting:scale-[0.98]',
         closing && 'opacity-0 translate-y-4 md:translate-y-0 md:scale-[0.98] duration-150',

@@ -4,7 +4,6 @@ import { Icon } from './Icon';
 
 export interface BadgeProps {
   variant?: 'pill' | 'primary' | 'secondary' | 'neutral' | 'danger' | 'tag' | 'category';
-  /** Text colour for the `category` variant. */
   tone?: 'gold' | 'blue' | 'gold-dim' | 'muted';
   shape?: 'rounded' | 'pill';
   uppercase?: boolean;

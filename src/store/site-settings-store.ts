@@ -28,7 +28,6 @@ export const SiteSettings = types.model('SiteSettings', {
 
 export const SiteSettingsStore = types
   .model('SiteSettingsStore', {
-    // Header/footer never render blank: start from the bundled copy of the seed row.
     settings: types.optional(SiteSettings, FALLBACK_SITE_SETTINGS),
     status: types.optional(RequestStatus, 'idle'),
     error: types.maybeNull(types.string),
@@ -53,7 +52,6 @@ export const SiteSettingsStore = types
         self.status = 'done';
         self.error = null;
       } catch (e) {
-        // Keep the fallback; no user-visible error for site settings.
         self.error = getErrorMessage(e);
         self.status = 'error';
         if (import.meta.env.DEV) console.warn('[site-settings] using fallback', e);

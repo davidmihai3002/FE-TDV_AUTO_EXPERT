@@ -12,22 +12,17 @@ const lazyPage = (load: () => Promise<{ default: ComponentType }>) => async () =
 const devRoutes: RouteObject[] = import.meta.env.DEV
   ? [
       { path: '__ui', lazy: lazyPage(() => import('@/pages/ui-kit/UiKitPage')) },
-      // loading & error states preview for QA (ticket 07)
       { path: '__states', lazy: lazyPage(() => import('@/pages/dev/StatesPreviewPage')) },
     ]
   : [];
 
-// Romanian paths (plan §9 D1); use ROUTES.* everywhere else. Old English paths intentionally 404.
 export const router = createBrowserRouter([
   {
     element: <AppLayout />,
-    // AppLayout itself failed: standalone page (no header/footer)
     errorElement: <RootErrorElement />,
-    // first lazy route module loading on a cold start
     HydrateFallback: () => <PageLoader variant="fullscreen" />,
     children: [
       {
-        // pathless child carrying the errorElement → route errors render INSIDE AppLayout
         errorElement: <RouteErrorElement />,
         children: [
           { index: true, lazy: lazyPage(() => import('@/pages/landing/LandingPage')) },
@@ -36,7 +31,6 @@ export const router = createBrowserRouter([
             handle: { headerVariant: 'task', closeLabel: 'Închide calculatorul de preț' } satisfies RouteHandle,
             lazy: lazyPage(() => import('@/pages/pricing/PricingPage')),
           },
-          // ?rezerva=<slug> opens the BookingDialog (ticket 06); an unknown slug is handled inline, never a 404
           { path: 'flota', lazy: lazyPage(() => import('@/pages/fleet/FleetPage')) },
           { path: 'blog', lazy: lazyPage(() => import('@/pages/blogs/BlogsPage')) },
           {

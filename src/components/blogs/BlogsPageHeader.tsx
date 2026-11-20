@@ -4,7 +4,6 @@ export interface BlogsPageHeaderProps {
   className?: string;
 }
 
-/** The page's only h1: visible on mobile, sr-only from md (the desktop hero title is an h2). */
 export function BlogsPageHeader({ title, subtitle, className }: BlogsPageHeaderProps) {
   return (
     <header className={`px-margin-mobile pt-lg text-center md:p-0 ${className ?? ''}`}>

@@ -2,14 +2,12 @@ import { cn } from '@/libs';
 
 export interface SkeletonProps {
   shape?: 'rect' | 'text' | 'circle';
-  /** Renders a block of text lines; the last one is shorter. */
   lines?: number;
   className?: string;
 }
 
 const SHAPES = { rect: 'rounded-lg', text: 'h-4 rounded-xs', circle: 'rounded-full' } as const;
 
-/** Decorative placeholder. The parent region should carry `aria-busy="true"`. */
 export function Skeleton({ shape = 'rect', lines, className }: SkeletonProps) {
   if (lines && lines > 1) {
     return (

@@ -16,7 +16,6 @@ const STEP_HEADINGS = {
   lessons: PRICING_COPY.section.lessons,
 } as const;
 
-/** One step at a time; focus moves to the step heading on change. */
 export const PricingWizard = observer(function PricingWizard({ store }: { store: PricingStoreInstance }) {
   const step = STEPS[store.currentStep];
   const headingRef = useRef<HTMLHeadingElement>(null);

@@ -10,13 +10,11 @@ export interface BookingDraft {
   fullName: string;
   phone: string;
   email: string;
-  /** 'YYYY-MM-DD' or '' */
   preferredDate: string;
   preferredTimeSlot: BookingTimeSlot | '';
   lessonsCount: number | null;
   message: string;
   gdprConsent: boolean;
-  /** honeypot, must stay empty */
   website: string;
 }
 

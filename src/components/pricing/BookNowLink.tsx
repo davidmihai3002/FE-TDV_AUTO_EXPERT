@@ -8,7 +8,6 @@ export interface BookNowLinkProps {
   ariaLabel?: string;
 }
 
-/** Navigates to 06's BookingDialog deep link; a disabled button while the selection is incomplete. */
 export function BookNowLink({ href, variant, ariaLabel }: BookNowLinkProps) {
   const classes = cn(
     'flex items-center justify-center gap-sm bg-primary-container text-on-primary-container transition-all',

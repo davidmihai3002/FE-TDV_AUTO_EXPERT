@@ -33,7 +33,6 @@ export function FieldError({ id, children }: { id: string; children: ReactNode }
   );
 }
 
-/** Shared label / required marker / hint / error wrapper used by every form control. */
 export function FormField({ label, hideLabel, required, hint, error, id, children, className }: FormFieldProps) {
   const ids = useFieldIds({ id, hint, error });
   return (

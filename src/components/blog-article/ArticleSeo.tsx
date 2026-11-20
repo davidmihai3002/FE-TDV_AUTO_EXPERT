@@ -3,11 +3,9 @@ import { countWords } from '@/libs';
 import type { BlogArticleInstance } from '@/store';
 import { ARTICLE_COPY } from './copy';
 
-/** `</` would end the script element early. */
 const safeJson = (data: unknown) => JSON.stringify(data).replace(/</g, '\\u003c');
 const absolute = (origin: string, url: string) => new URL(url, origin).href;
 
-/** React 19 hoists title/meta/link into <head>. OG previews still need prerender/SSR (ticket 05 §9). */
 export function ArticleSeo({ article }: { article: BlogArticleInstance }) {
   const origin = window.location.origin;
   const url = `${origin}${ROUTES.blogArticle(article.slug)}`;

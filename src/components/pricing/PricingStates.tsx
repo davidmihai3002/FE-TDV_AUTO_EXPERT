@@ -30,7 +30,6 @@ export function PricingSkeleton({ variant }: { variant: 'desktop' | 'mobile' }) 
   );
 }
 
-/** No priced cars yet: point to the phone number (placeholder from site settings, D2). */
 export const PricingEmpty = observer(function PricingEmpty() {
   const { siteSettings } = useStore();
   const phone = siteSettings.phone;

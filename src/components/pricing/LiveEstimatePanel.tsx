@@ -13,7 +13,6 @@ export interface LiveEstimatePanelProps {
   bookAriaLabel?: string;
 }
 
-/** Desktop sticky sidebar (112px from the top). */
 export function LiveEstimatePanel({ breakdown, isRecalculating, checkFailed, bookingHref, bookAriaLabel }: LiveEstimatePanelProps) {
   const announcement = useAnnouncedTotal(breakdown?.totalFormatted ?? null);
   return (

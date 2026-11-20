@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
 
-/**
- * Id of the section currently in the reading zone (20% from the top). Before any section intersects (or after the
- * ids change, e.g. another article), the first id is active.
- */
 export function useActiveSection(ids: string[]): string | undefined {
   const key = ids.join('|');
   const [state, setState] = useState<{ key: string; id: string } | null>(null);

@@ -9,7 +9,6 @@ export const FUEL_LABEL: Record<FuelType, string> = {
   electric: 'Electric',
 };
 
-/** Mobile meta row uses the feminine form ("mașină electrică"). */
 export const ELECTRIC_META_LABEL = 'Electrică';
 
 export const BODY_TYPE_LABEL: Record<BodyType, string> = {
@@ -20,7 +19,6 @@ export const BODY_TYPE_LABEL: Record<BodyType, string> = {
   suv: 'SUV',
 };
 
-/** Default badge copy (overridable per car via `badgeLabel`). */
 export const CATEGORY_LABEL: Record<CarCategory, string> = {
   beginner: 'Pentru începători',
   fundamentals: 'Fundamente',
@@ -28,7 +26,6 @@ export const CATEGORY_LABEL: Record<CarCategory, string> = {
   mastery: 'Măiestrie',
 };
 
-/** Filter chip copy. */
 export const CATEGORY_FILTER_LABEL: Record<CarCategory, string> = {
   beginner: 'Începător',
   fundamentals: 'Fundamente',
@@ -36,7 +33,6 @@ export const CATEGORY_FILTER_LABEL: Record<CarCategory, string> = {
   mastery: 'Măiestrie',
 };
 
-// "advanced" uses the mobile red so it differs from "beginner" blue (ticket 06 Q6)
 export const CATEGORY_BADGE_CLASS: Record<CarCategory, string> = {
   mastery: 'bg-primary-container text-on-primary-container',
   advanced: 'bg-error-container text-on-error-container',
@@ -44,7 +40,6 @@ export const CATEGORY_BADGE_CLASS: Record<CarCategory, string> = {
   beginner: 'bg-secondary-container text-on-secondary-container',
 };
 
-/** API value ↔ Romanian URL value. */
 export const TRANSMISSION_URL: Record<TransmissionType, string> = { manual: 'manuala', automatic: 'automata' };
 export const FUEL_URL: Record<FuelType, string> = {
   petrol: 'benzina',

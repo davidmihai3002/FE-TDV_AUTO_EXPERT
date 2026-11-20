@@ -164,7 +164,6 @@ export const BookingForm = observer(function BookingForm({ store, privacyUrl, fo
           </>
         }
       />
-      {/* honeypot: hidden from users and assistive tech */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label>
           {C.website}

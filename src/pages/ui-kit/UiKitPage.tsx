@@ -21,7 +21,6 @@ import {
 } from '@/components';
 import { REQUIRED_LEGEND, VALIDATION_MESSAGES, formatDate, formatPercent, formatRon, isValidEmail, isValidRoPhone, pluralRo, tomorrowIso } from '@/libs';
 
-/** Dev-only visual QA page for every primitive (route registered only when `import.meta.env.DEV`). */
 export default function UiKitPage() {
   const [chip, setChip] = useState('toate');
   const [dialogOpen, setDialogOpen] = useState(false);

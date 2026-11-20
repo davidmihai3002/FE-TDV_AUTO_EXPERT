@@ -7,14 +7,11 @@ import { Icon } from './Icon';
 export interface DateInputProps
   extends FieldBaseProps,
     Omit<InputHTMLAttributes<HTMLInputElement>, 'id' | 'required' | 'type' | 'min' | 'max'> {
-  /** YYYY-MM-DD */
   min?: string;
-  /** YYYY-MM-DD */
   max?: string;
   ref?: Ref<HTMLInputElement>;
 }
 
-/** Native date input; the browser picker follows `lang="ro"` and the dark colour scheme. */
 export function DateInput({ label, hideLabel, required, hint, error, id, className, ref, ...rest }: DateInputProps) {
   return (
     <FormField label={label} hideLabel={hideLabel} required={required} hint={hint} error={error} id={id} className={className}>

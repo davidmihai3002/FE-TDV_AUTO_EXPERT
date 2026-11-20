@@ -1,7 +1,6 @@
 import type { BookingTimeSlot } from '@/types';
 import { VALIDATION_MESSAGES } from '../validation-messages';
 
-/** BookingDialog copy (ticket 06 §5.1). Romanian only, comma-below ș/ț. */
 export const BOOKING_COPY = {
   title: 'Programează o lecție',
   description: 'Completează datele și te sunăm pentru confirmare.',

@@ -11,7 +11,6 @@ import { SectionEyebrow } from './SectionEyebrow';
 
 const STRETCH = "after:absolute after:inset-0 after:content-['']";
 
-/** Desktop: image card, no excerpt. Mobile: text card with excerpt. Whole card clickable. */
 export function InsightCard({ post }: { post: BlogListItem }) {
   const href = ROUTES.blogArticle(post.slug);
   return (
@@ -71,7 +70,7 @@ export interface InsightsTeaserProps {
 }
 
 export function InsightsTeaser({ section, posts, status, error, onRetry }: InsightsTeaserProps) {
-  if (status === 'success' && posts.length === 0) return null; // nothing to tease
+  if (status === 'success' && posts.length === 0) return null;
   const href = section.primaryCtaHref ?? ROUTES.blog;
   const label = section.primaryCtaLabel ?? LANDING_COPY.viewAllArticles;
   return (

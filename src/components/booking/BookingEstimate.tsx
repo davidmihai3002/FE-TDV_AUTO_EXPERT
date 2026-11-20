@@ -6,7 +6,6 @@ export interface BookingEstimateProps {
   estimate: Estimate | null;
 }
 
-/** Optional price line; hidden on idle/error so it never blocks the form. */
 export function BookingEstimate({ status, estimate }: BookingEstimateProps) {
   const visible = status === 'loading' || (estimate !== null && status !== 'error');
   return (

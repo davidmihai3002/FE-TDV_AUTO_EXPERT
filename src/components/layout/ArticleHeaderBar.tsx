@@ -5,7 +5,6 @@ import { Icon } from '@/components/ui';
 import { ROUTES } from '@/config';
 import { cn, setHideOnScrollPinned, useHideOnScroll } from '@/libs';
 
-/** Mobile header on article routes (<lg): back, wordmark, share. Hides on scroll down, returns on scroll up. */
 export function ArticleHeaderBar() {
   const hidden = useHideOnScroll();
   return (

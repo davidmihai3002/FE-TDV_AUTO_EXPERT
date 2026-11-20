@@ -15,16 +15,11 @@ import { ErrorPage } from '@/components/feedback';
 import { ROUTES } from '@/config';
 import { useStore } from '@/store';
 
-/** Booking happens per car on /flota (plan §9 D3). */
 const BOOKING_HREF = ROUTES.fleet;
 const PRICING_HREF = ROUTES.pricing;
 
 const safeJson = (data: unknown) => JSON.stringify(data).replace(/</g, '\\u003c');
 
-/**
- * DOM order = mobile order (Hero → Stats → Advantage → Fleet → Insights → FAQ → CTA); flex `order` puts Stats after
- * Advantage on desktop. Each section hides itself when its data is missing.
- */
 const LandingPage = observer(function LandingPage() {
   const { landing, siteSettings } = useStore();
 
@@ -77,7 +72,6 @@ const LandingPage = observer(function LandingPage() {
 
   const s = c.sections;
   const settings = siteSettings.settings;
-  // placeholder contact data until the real business details arrive (plan §9 D2)
   const school = {
     '@context': 'https://schema.org',
     '@type': 'DrivingSchool',

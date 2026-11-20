@@ -1,7 +1,6 @@
 import type { FuelType, TransmissionType } from '@/types';
 import { formatRon, pluralRo } from '../format';
 
-/** /preturi static copy (ticket 03 §2.4, §5.1). Romanian only (D1). */
 export const PRICING_COPY = {
   title: { desktop: 'Calculator de preț personalizat', mobile: 'Calculator de preț' },
   lead: {
@@ -107,14 +106,10 @@ export const FUEL_COPY: Record<FuelType, { title: string; description: string; i
   electric: { title: 'Electric', description: 'Zero emisii, o experiență de condus modernă.', icon: 'ev_station' },
   petrol: { title: 'Benzină', description: 'Motor clasic cu ardere internă.', icon: 'local_gas_station' },
   diesel: { title: 'Motorină', description: 'Eficiență ridicată pentru trasee lungi.', icon: 'oil_barrel' },
-  // not in design; copy is a proposal (Q6)
   hybrid: { title: 'Hibrid', description: 'Asistență electrică, cu autonomia unui motor pe benzină.', icon: 'energy_savings_leaf' },
 };
-/** Defaults pick the first available fuel in desktop order. */
 export const FUEL_ORDER_DESKTOP: FuelType[] = ['electric', 'petrol', 'diesel', 'hybrid'];
 export const FUEL_ORDER_MOBILE: FuelType[] = ['petrol', 'diesel', 'electric', 'hybrid'];
 
-/** 1 lecție · 15 lecții · 20 de lecții */
 export const lessonsLabel = (n: number) => pluralRo(n, 'lecție', 'lecții');
-/** 35 lei/lecție */
 export const rateLabel = (lei: number) => `${formatRon(lei)}/lecție`;

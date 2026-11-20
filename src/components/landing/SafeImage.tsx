@@ -3,7 +3,6 @@ import { Icon } from '@/components/ui';
 import { cn } from '@/libs';
 import { LANDING_COPY } from './landing-copy';
 
-/** `<img>` that swaps to a same-size placeholder block on error. */
 export function SafeImage({
   fallbackIcon = 'directions_car',
   className,

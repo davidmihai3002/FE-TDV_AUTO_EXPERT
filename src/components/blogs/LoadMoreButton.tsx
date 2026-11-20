@@ -26,7 +26,6 @@ export function LoadMoreButton({ onClick, isLoading, label, controls }: LoadMore
       {isLoading && <Icon name="progress_activity" size={20} className="motion-safe:animate-spin md:order-last" />}
       <span className="md:hidden">{label.mobile}</span>
       <span className="hidden md:inline">{label.desktop}</span>
-      {/* wrapper: the icon font's unlayered `display: inline-block` would beat a `hidden` class on the icon itself */}
       {!isLoading && (
         <span className="hidden md:inline-flex">
           <Icon name="expand_more" size={24} />

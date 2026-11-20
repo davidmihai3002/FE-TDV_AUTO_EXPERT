@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 
-/** Sets document.title (+ optional robots noindex) while mounted; restores both on unmount. */
 export function useDocumentMeta({ title, noindex = false }: { title: string; noindex?: boolean }): void {
   useEffect(() => {
     const previousTitle = document.title;

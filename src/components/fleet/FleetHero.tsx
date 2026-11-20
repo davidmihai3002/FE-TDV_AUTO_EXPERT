@@ -6,11 +6,9 @@ export interface FleetHeroProps {
   titleDesktop: string;
   introMobile: string;
   introDesktop: string;
-  /** Filters slot (sits under the intro). */
   children?: ReactNode;
 }
 
-/** One `<h1>`; the hidden span is display:none so only the visible text is announced. */
 export function FleetHero({ titleMobile, titleDesktop, introMobile, introDesktop, children }: FleetHeroProps) {
   return (
     <section className="relative overflow-hidden px-margin-mobile pt-12 md:px-margin-desktop md:pt-20 md:pb-12 text-center">

@@ -7,7 +7,6 @@ import { BlogImage } from './BlogImage';
 
 export interface FeaturedBlogProps {
   post: BlogListItemInstance;
-  /** `hero`: desktop overlay; `card`: mobile stacked card */
   variant: 'hero' | 'card';
 }
 

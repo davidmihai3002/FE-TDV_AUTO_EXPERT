@@ -2,7 +2,6 @@ import { cn } from '@/libs';
 import type { Stat } from '@/types';
 import { statAccentDesktop, statAccentMobile } from './accent';
 
-/** Mobile: 2×2 tiles in a card (before "De ce TDV"). Desktop: full-bleed band, 4 columns (after it). */
 export function StatsBand({ stats }: { stats: Stat[] }) {
   return (
     <section
@@ -30,7 +29,6 @@ export function StatsBand({ stats }: { stats: Stat[] }) {
                   )}
                 >
                   {s.value}
-                  {/* mobile: "10 ani" (word suffix with a space, smaller) */}
                   {mobileSuffix && (
                     <span className={cn('md:hidden', /^[a-z]/i.test(mobileSuffix) && 'ml-1 text-body-lg font-medium')}>
                       {mobileSuffix}

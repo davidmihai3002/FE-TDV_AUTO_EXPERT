@@ -6,7 +6,6 @@ import { FleetCardBadge } from '../fleet/FleetCardBadge';
 export interface BookingCarSummaryProps {
   car: FleetCar;
   licenseCategory: string | null;
-  /** id of the name, referenced by the dialog's aria-describedby */
   nameId: string;
 }
 

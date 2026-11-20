@@ -1,10 +1,8 @@
 import type { ErrorVariant } from '@/libs';
 
-/** Loading & error copy (ticket 07 §5.1). Romanian only (D1); contact phone/email come from site settings. */
 export const LOADER_COPY = {
   title: 'Inițializăm sistemele tehnice...',
   subtitle: 'Calibrăm parametrii de performanță',
-  // mobile screen copy, kept but unused: one copy set so the announced text doesn't change on rotate (Q2)
   titleAlt: 'Sincronizăm telemetria...',
   subtitleAlt: 'Calibrăm modulele expert',
   brand: 'TDV Auto Expert',
@@ -34,7 +32,6 @@ export interface ErrorCopy {
   decoCode: string;
 }
 
-/** `{phone}` in an href is replaced with the tel: target of the site settings phone. */
 export const CONTACT_ACTION: ErrorAction = { kind: 'href', label: 'Contactează-ne', icon: 'support_agent', href: '{phone}' };
 const HOME: ErrorAction = { kind: 'link', label: 'Înapoi la pagina principală', icon: 'home', to: '/' };
 const RETRY: ErrorAction = { kind: 'retry', label: 'Încearcă din nou', icon: 'refresh' };
@@ -93,7 +90,6 @@ export const ERROR_COPY: Record<ErrorVariant, ErrorCopy> = {
   },
 };
 
-/** Ticket 05: unknown /blog/:slug. */
 export const BLOG_NOT_FOUND_COPY: Partial<ErrorCopy> = {
   documentTitle: 'Articolul nu a fost găsit · TDV Auto Expert',
   title: 'Articolul nu a fost găsit',

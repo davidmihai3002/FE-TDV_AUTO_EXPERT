@@ -6,7 +6,6 @@ export interface ChipProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>,
   children: ReactNode;
 }
 
-/** Toggle button for filter rows. */
 export function Chip({ selected, className, children, ...rest }: ChipProps) {
   return (
     <button

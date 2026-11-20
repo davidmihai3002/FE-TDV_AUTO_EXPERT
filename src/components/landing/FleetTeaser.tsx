@@ -11,7 +11,6 @@ const STRETCH = "after:absolute after:inset-0 after:content-[''] focus-visible:o
 const RING =
   'has-[a:focus-visible]:outline has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-primary-container';
 
-/** One card, two anatomies (desktop overlay / mobile stacked); the whole card links to /flota. */
 export function FleetHighlightCard({ highlight, href }: { highlight: FleetHighlight; href: string }) {
   const link = (
     <Link to={href} aria-label={LANDING_COPY.fleetCardAria(highlight.name)} className={STRETCH}>
@@ -20,7 +19,6 @@ export function FleetHighlightCard({ highlight, href }: { highlight: FleetHighli
   );
   return (
     <article className={cn('relative', RING, 'rounded-xl md:rounded-lg')}>
-      {/* desktop */}
       <div className="hidden md:block relative bg-surface-container border border-outline-variant/30 rounded-lg overflow-hidden group">
         <div className="aspect-video w-full bg-surface-container relative">
           <SafeImage
@@ -43,7 +41,6 @@ export function FleetHighlightCard({ highlight, href }: { highlight: FleetHighli
           </span>
         </div>
       </div>
-      {/* mobile */}
       <div className="md:hidden bg-surface-container rounded-xl overflow-hidden shadow-md flex flex-col">
         <div className="relative h-44 w-full overflow-hidden bg-surface-container-high">
           <SafeImage src={highlight.imageUrl} alt={highlight.imageAlt} loading="lazy" width={640} height={360} className="w-full h-full object-cover" />

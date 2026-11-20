@@ -10,7 +10,6 @@ export interface AccordionItem {
 
 export interface AccordionProps {
   items: AccordionItem[];
-  /** Only one item open at a time (native `<details name>`). */
   single?: boolean;
   defaultOpenId?: string;
   className?: string;

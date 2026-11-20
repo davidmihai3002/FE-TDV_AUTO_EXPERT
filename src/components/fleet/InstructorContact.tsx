@@ -15,7 +15,6 @@ const initials = (name: string) =>
     .map((p) => p[0]?.toUpperCase())
     .join('');
 
-/** [NOT IN DESIGN] avatar + name + tel: link. Phone wraps under the name on mobile. */
 export function InstructorContact({ instructor }: InstructorContactProps) {
   const phone = formatPhone(instructor.phoneNumber);
   return (

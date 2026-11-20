@@ -4,7 +4,6 @@ export interface IconProps {
   name: string;
   size?: 16 | 18 | 20 | 24 | 30 | 36 | 48;
   filled?: boolean;
-  /** When set, the icon is announced (`role="img"`); otherwise it is decorative. */
   label?: string;
   className?: string;
 }

@@ -1,6 +1,5 @@
 import { formatReadTime, pluralRo } from '@/libs';
 
-/** /blog static copy (ticket 04 §5.1). Romanian only; where layouts differ: `mobile` / `desktop`. */
 export const BLOGS_COPY = {
   pageTitle: 'Sfaturi de expert',
   pageSubtitle: 'Stăpânește drumul, câte un sfat pe rând.',

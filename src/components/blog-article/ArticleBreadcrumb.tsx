@@ -2,7 +2,6 @@ import { Link } from 'react-router';
 import { ROUTES } from '@/config';
 import { ARTICLE_COPY } from './copy';
 
-/** Desktop only (not in Stitch; product request). The matching BreadcrumbList JSON-LD renders at all sizes. */
 export function ArticleBreadcrumb({ title }: { title: string }) {
   const link = 'hover:text-primary-container transition-colors';
   return (

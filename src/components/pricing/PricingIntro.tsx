@@ -1,6 +1,5 @@
 import { PRICING_COPY } from '@/libs';
 
-/** The page's only H1 (copy per breakpoint). */
 export function PricingIntro({ variant }: { variant: 'desktop' | 'mobile' }) {
   if (variant === 'desktop') {
     return (

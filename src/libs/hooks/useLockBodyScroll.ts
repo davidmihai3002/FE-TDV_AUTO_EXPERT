@@ -24,7 +24,6 @@ function unlock() {
   }
 }
 
-/** Locks page scroll while `active`. Reference-counted, so nested locks (drawer + dialog) are safe. */
 export function useLockBodyScroll(active: boolean): void {
   useEffect(() => {
     if (!active) return;

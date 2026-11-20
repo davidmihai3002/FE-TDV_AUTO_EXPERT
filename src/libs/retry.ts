@@ -1,14 +1,8 @@
 import type { ApiError } from './api-client';
 
-/**
- * Automatic retry for idempotent GETs (ticket 07 §7.3): 3 attempts, backoff 500ms then 1500ms (±100ms jitter).
- * Retries network errors while online, timeouts and HTTP 408/429/502/503/504; never aborted requests, offline,
- * other 4xx or 500 (a 500 is likely deterministic; the user can still retry manually).
- */
 export interface RetryPolicy {
   attempts: number;
   baseDelayMs: number;
-  /** Retry-After above this gives up immediately */
   maxRetryAfterMs: number;
 }
 
@@ -33,7 +27,6 @@ export function shouldRetry(e: unknown): boolean {
   }
 }
 
-/** Delay before attempt n+1 (n = 0, 1, …): 500 × 3^n ± 100ms, or Retry-After when present. */
 export function retryDelay(e: unknown, n: number, policy: RetryPolicy = DEFAULT_RETRY_POLICY, random = Math.random): number | null {
   const retryAfter = (e as Partial<ApiError>).retryAfterMs;
   if (retryAfter !== undefined) return retryAfter <= policy.maxRetryAfterMs ? retryAfter : null;
@@ -69,7 +62,7 @@ export async function withRetry<T>(
       try {
         await sleep(delay, signal);
       } catch {
-        throw e; // caller aborted during backoff: surface the original error (its kind decides the UI)
+        throw e;
       }
     }
   }

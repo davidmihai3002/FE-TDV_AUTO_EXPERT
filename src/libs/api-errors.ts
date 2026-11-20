@@ -7,15 +7,12 @@ export type ErrorVariant = 'not-found' | 'server' | 'offline';
 export interface UiError {
   variant: ErrorVariant;
   statusCode?: number;
-  /** English API message, DEV/debug only — never shown to users */
   message?: string;
-  /** Romanian, from toUserMessage() */
   userMessage: string;
   requestId?: string;
   retryable: boolean;
 }
 
-/** Romanian user-facing copy for API failures (ticket 07 §5.3). The English API `message` is never displayed. */
 export const API_ERROR_COPY = {
   validation: 'Unele câmpuri nu sunt completate corect. Verifică datele și încearcă din nou.',
   badRequest: 'Cererea nu a putut fi procesată. Încearcă din nou.',
@@ -33,7 +30,6 @@ export const API_ERROR_COPY = {
 
 const isOffline = () => typeof navigator !== 'undefined' && navigator.onLine === false;
 
-/** Romanian message for any thrown value; '' for aborted requests (nothing is shown). */
 export function toUserMessage(e: unknown): string {
   if (!(e instanceof ApiError)) return API_ERROR_COPY.unexpected;
   switch (e.kind) {
@@ -61,7 +57,6 @@ export function toUserMessage(e: unknown): string {
   }
 }
 
-/** Maps any thrown value to a UI error (ticket 07 §5.2). Aborted requests have no UI: callers ignore them. */
 export function toUiError(e: unknown): UiError {
   const userMessage = toUserMessage(e) || API_ERROR_COPY.unexpected;
   if (e instanceof ApiError) {
@@ -80,7 +75,6 @@ export function toUiError(e: unknown): UiError {
       }
     }
   }
-  // react-router ErrorResponse (notFound() / unknown route)
   if (e && typeof e === 'object' && 'status' in e && 'statusText' in e) {
     const status = Number((e as { status: unknown }).status);
     return status === 404
@@ -97,7 +91,6 @@ export function toUiError(e: unknown): UiError {
 
 export const isAbortError = (e: unknown) => e instanceof ApiError && e.kind === 'abort';
 
-/** Kept for existing callers (site settings); same wording as toUserMessage. */
 export const ERROR_MESSAGES = {
   network: API_ERROR_COPY.network,
   timeout: API_ERROR_COPY.timeout,
@@ -128,7 +121,6 @@ const CODE_MESSAGES: Record<string, string> = {
   invalid_enum_value: VALIDATION_MESSAGES.select,
 };
 
-/** Maps BE validation issues to `{ field: RomanianMessage }` (reason → code → "Câmp invalid"). First issue per field wins. */
 export function mapApiIssues(issues: ApiIssue[] = []): Record<string, string> {
   const out: Record<string, string> = {};
   for (const issue of issues) {

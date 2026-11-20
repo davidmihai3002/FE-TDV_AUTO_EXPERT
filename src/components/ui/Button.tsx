@@ -3,14 +3,11 @@ import { Link, type LinkProps } from 'react-router';
 import { buttonClasses, type ButtonRadius, type ButtonSize, type ButtonVariant } from './button-classes';
 import { Icon } from './Icon';
 
-
 interface ButtonBaseProps {
   variant?: ButtonVariant;
   size?: ButtonSize;
   block?: boolean;
-  /** Gold glow (primary only, hero CTA). */
   glow?: boolean;
-  /** `responsive` = 8px on mobile, 2px from md up. */
   radius?: ButtonRadius;
   leadingIcon?: string;
   trailingIcon?: string;

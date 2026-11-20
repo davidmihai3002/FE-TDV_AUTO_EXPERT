@@ -16,15 +16,12 @@ interface SyncArgs {
 
 export const BlogsListStore = types
   .model('BlogsListStore', {
-    /** grid items, accumulated across "load more" */
     items: types.array(BlogListItemModel),
     featured: types.maybeNull(BlogListItemModel),
     categories: types.array(BlogCategoryModel),
     total: 0,
     pagesLoaded: 0,
-    /** active filter (slug), mirrors ?categorie= */
     category: types.maybeNull(types.string),
-    /** mirrors ?cauta= (no search box yet) */
     search: types.maybeNull(types.string),
     status: types.optional(Status, 'idle'),
     featuredStatus: types.optional(Status, 'idle'),
@@ -37,7 +34,6 @@ export const BlogsListStore = types
     get hasFilter(): boolean {
       return self.category !== null || self.search !== null;
     },
-    /** Hero only on the unfiltered view; when filtered, the featured post appears in the grid instead. */
     get showFeatured(): boolean {
       return !this.hasFilter && self.featured !== null && self.featuredStatus === 'success';
     },
@@ -57,7 +53,6 @@ export const BlogsListStore = types
       return {
         category: self.category ?? undefined,
         search: self.search ?? undefined,
-        // unfiltered view: the featured post is in the hero, not the grid
         featured: self.category || self.search ? undefined : false,
       };
     },
@@ -71,7 +66,7 @@ export const BlogsListStore = types
         self.categories.replace(res.items as never);
         self.categoriesStatus = 'success';
       } catch (e) {
-        self.categoriesStatus = 'error'; // chips hidden; the page still works via the URL
+        self.categoriesStatus = 'error';
         if (import.meta.env.DEV) console.warn('[blogs] categories failed', e);
       }
     }),
@@ -84,20 +79,16 @@ export const BlogsListStore = types
         self.featured = (res.items[0] ?? null) as never;
         self.featuredStatus = 'success';
       } catch (e) {
-        self.featuredStatus = 'error'; // hero hidden quietly
+        self.featuredStatus = 'error';
         if (import.meta.env.DEV) console.warn('[blogs] featured failed', e);
       }
     }),
 
-    /**
-     * Sync from the URL. `?pagina=N` is restored in as few requests as possible (pages of up to 24 items, in parallel)
-     * instead of N sequential "load more" calls.
-     */
     syncFromUrl: flow(function* syncFromUrl({ category, search, pages }: SyncArgs) {
       const sameFilters = self.category === category && self.search === search;
-      if (sameFilters && self.status === 'success' && self.pagesLoaded === pages) return; // cache hit / after loadMore
+      if (sameFilters && self.status === 'success' && self.pagesLoaded === pages) return;
       const key = JSON.stringify([category, search, pages]);
-      if (self.status === 'loading' && self.pendingKey === key) return; // identical request already in flight
+      if (self.status === 'loading' && self.pendingKey === key) return;
       self.pendingKey = key;
 
       self.abort?.abort();
@@ -108,7 +99,6 @@ export const BlogsListStore = types
       self.loadMoreError = false;
 
       if (category && !isValidCategorySlug(category)) {
-        // malformed slug: empty state, no request (API would 400)
         self.items.clear();
         self.total = 0;
         self.pagesLoaded = pages;
@@ -142,7 +132,6 @@ export const BlogsListStore = types
       }
     }),
 
-    /** Appends the next page; resolves to the new number of loaded pages (or null on failure). */
     loadMore: flow(function* loadMore() {
       if (self.status !== 'success' || !self.hasMore) return null;
       self.status = 'loadingMore';
@@ -168,7 +157,7 @@ export const BlogsListStore = types
     }),
 
     retry() {
-      self.status = 'idle'; // forces the next syncFromUrl to refetch
+      self.status = 'idle';
     },
   }));
 

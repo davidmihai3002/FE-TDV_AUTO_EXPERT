@@ -10,19 +10,13 @@ import {
 } from './LoaderParts';
 
 export interface PageLoaderProps {
-  /** fullscreen = fixed overlay with brand block (boot / hydration); inline = inside the layout (lazy routes). */
   variant?: 'fullscreen' | 'inline';
-  /** nothing renders for this long (no flash on fast loads) */
   delayMs?: number;
   title?: string;
   subtitle?: string;
   srLabel?: string;
 }
 
-/**
- * Code/route loading only — section data uses Skeleton. Desktop and mobile compositions swap with CSS (no JS media
- * query, no flicker on resize). Visible/title texts are <p>, not headings.
- */
 export function PageLoader({
   variant = 'inline',
   delayMs = 200,

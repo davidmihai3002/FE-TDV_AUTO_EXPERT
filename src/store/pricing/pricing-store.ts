@@ -44,11 +44,9 @@ export const PricingStore = types
     options: types.maybeNull(types.frozen<PricingOptions>()),
     optionsStatus: types.optional(Status, 'idle'),
     selection: types.optional(Selection, {}),
-    /** wizard index 0..4 */
     currentStep: 0,
     serverQuote: types.maybeNull(types.frozen<QuoteBreakdown>()),
     quoteStatus: types.optional(Status, 'idle'),
-    /** the selected car disappeared between page load and the quote (404) */
     carGone: false,
     optionsError: types.maybeNull(types.frozen<UiError>()),
   })
@@ -83,7 +81,6 @@ export const PricingStore = types
       return calculateQuote({ rate: this.rate, lessons: self.selection.lessons, fee: self.options.processingFee.amount })
         .total;
     },
-    /** Server value wins when it matches the current selection; otherwise the instant local one. */
     get displayTotal(): number | null {
       const s = self.serverQuote;
       if (s && s.vehicle.id === self.selection.vehicleId && s.lessons === self.selection.lessons) return s.total;
@@ -127,7 +124,6 @@ export const PricingStore = types
     get canBook(): boolean {
       return STEPS.every((st) => this.isStepValid(st));
     },
-    /** "Rezervă acum" target; null → CTA disabled */
     get bookingHref(): string | null {
       if (!this.canBook) return null;
       return buildBookingHref(this.selectedVehicle!.slug, self.selection.lessons, self.selection.categoryCode!);
@@ -141,7 +137,6 @@ export const PricingStore = types
     get isEmpty(): boolean {
       return self.optionsStatus === 'ready' && (self.options?.vehicles.length ?? 0) === 0;
     },
-    /** Values for the URL (`?categorie=B&cutie=…&combustibil=…&masina=<slug>&lectii=15`). */
     get urlSelection() {
       return {
         categoryCode: self.selection.categoryCode,
@@ -171,7 +166,6 @@ export const PricingStore = types
           },
           ctrl.signal,
         );
-        // ignore a stale answer for an older selection
         if (q.vehicle.id !== self.selection.vehicleId || q.lessons !== self.selection.lessons) return;
         self.serverQuote = q;
         self.quoteStatus = 'ready';
@@ -180,7 +174,7 @@ export const PricingStore = types
         }
       } catch (e) {
         if (isAbort(e)) return;
-        self.quoteStatus = 'error'; // keep showing the local total
+        self.quoteStatus = 'error';
         if (e instanceof ApiError && e.status === 404) {
           self.carGone = true;
           void (self as unknown as { refetchOptions(): Promise<void> }).refetchOptions();
@@ -195,11 +189,9 @@ export const PricingStore = types
         self.quoteStatus = 'idle';
         return;
       }
-      // flows must run as store actions: call the public action, not the local function (no MST context in a timer)
       self.quoteTimer = window.setTimeout(() => void (self as unknown as { sendQuote(): Promise<void> }).sendQuote(), 300);
     }
 
-    /** Re-validates downstream choices; anything no longer available is replaced by the first available one. */
     function cascade() {
       const s = self.selection;
       if (!s.transmission || !self.availableTransmissions.has(s.transmission)) {
@@ -212,14 +204,12 @@ export const PricingStore = types
       scheduleQuote();
     }
 
-    /** Defaults (first category, manual, first fuel in desktop order, first car by name, default lessons), overridden by valid URL values. */
     function applySelection(fromUrl?: PricingUrlSelection) {
       const o = self.options;
       if (!o) return;
       const s = self.selection;
       const categories = [...o.categories].sort((a, b) => a.sortOrder - b.sortOrder);
       s.categoryCode = categories.find((c) => c.code === fromUrl?.categoryCode)?.code ?? categories[0]?.code ?? null;
-      // URL values are untrusted: only known enum values reach the MST enumerations
       const t = fromUrl?.transmission as TransmissionType | null | undefined;
       const f = fromUrl?.fuel as FuelType | null | undefined;
       s.transmission = t && TRANSMISSION_ORDER.includes(t) ? t : 'manual';
@@ -227,7 +217,6 @@ export const PricingStore = types
       const urlCar = o.vehicles.find((v) => v.slug === fromUrl?.vehicleSlug);
       s.vehicleId = urlCar?.id ?? null;
       s.lessons = clampToStep(fromUrl?.lessons ?? o.lessons.default, o.lessons.min, o.lessons.max, o.lessons.step);
-      // unavailable combinations fall back via the cascade
       cascade();
     }
 
@@ -237,7 +226,7 @@ export const PricingStore = types
         self.options = options;
         cascade();
       } catch {
-        /* keep the current options; the warning stays visible */
+        return;
       }
     });
 

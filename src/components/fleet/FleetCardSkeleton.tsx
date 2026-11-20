@@ -1,6 +1,5 @@
 import { Skeleton } from '@/components/ui';
 
-/** Same frame as FleetCard, no hover. Decorative; the grid carries aria-busy. */
 export function FleetCardSkeleton({ count = 3 }: { count?: number }) {
   return Array.from({ length: count }, (_, i) => (
     <li key={i} aria-hidden>

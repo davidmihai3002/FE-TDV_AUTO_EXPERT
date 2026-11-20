@@ -17,7 +17,6 @@ import { BLOG_NOT_FOUND_COPY, ErrorPage } from '@/components/feedback';
 import { useActiveSection, useHideOnScroll } from '@/libs';
 import { useStore, type BlogArticleInstance } from '@/store';
 
-/** Desktop (≥1024): hero + 3/6/3 grid. Below lg: single column, sticky Contents bar, carousel, fixed CTA bar. */
 const BlogArticlePage = observer(function BlogArticlePage() {
   const { slug = '' } = useParams();
   const { blogArticle } = useStore();
@@ -28,7 +27,6 @@ const BlogArticlePage = observer(function BlogArticlePage() {
     void blogArticle.fetchArticle(slug);
   }, [blogArticle, slug]);
 
-  // the fixed bottom bar must never hide focused elements (mobile)
   useEffect(() => {
     const html = document.documentElement;
     const previous = html.style.scrollPaddingBottom;
@@ -39,7 +37,6 @@ const BlogArticlePage = observer(function BlogArticlePage() {
   }, []);
 
   if (article) return <ArticleView article={article} />;
-  // the mobile article header is fixed (72px): keep the error content clear of it
   if (status === 'notFound') {
     return (
       <div className="max-lg:pt-[72px]">
@@ -70,7 +67,6 @@ const ArticleView = observer(function ArticleView({ article }: { article: BlogAr
   const activeId = useActiveSection(toc.map((t) => t.id));
   const headerHidden = useHideOnScroll();
 
-  // deep link to a section (#id): scroll once the content is rendered
   useEffect(() => {
     if (!hash) return;
     const el = document.getElementById(decodeURIComponent(hash.slice(1)));

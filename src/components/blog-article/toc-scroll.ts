@@ -1,4 +1,3 @@
-/** Scrolls a section under the sticky chrome (scroll-margin does the offset), updates the hash, focuses its heading. */
 export function jumpToSection(id: string) {
   const section = document.getElementById(id);
   if (!section) return;

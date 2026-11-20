@@ -31,7 +31,6 @@ export const FleetCarModel = types
     successRate: types.maybeNull(types.number),
     averageGrade: types.maybeNull(types.number),
     displayOrder: types.number,
-    // nested copy, not a reference (there is no instructors store yet)
     instructor: types.maybeNull(InstructorModel),
   })
   .views((self) => ({

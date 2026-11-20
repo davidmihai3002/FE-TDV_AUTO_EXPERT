@@ -1,14 +1,12 @@
 import { Skeleton } from '@/components/ui';
 import { ARTICLE_COPY } from './copy';
 
-/** Mirrors the real layout so nothing shifts on swap. */
 export function ArticleSkeleton() {
   return (
     <div aria-busy="true">
       <p className="sr-only" aria-live="polite">
         {ARTICLE_COPY.state.loading}
       </p>
-      {/* mobile */}
       <div className="lg:hidden pt-[72px]">
         <Skeleton className="h-72 w-full rounded-none" />
         <div className="px-margin-mobile -mt-16 relative flex flex-col gap-3">
@@ -20,7 +18,6 @@ export function ArticleSkeleton() {
           <Skeleton lines={8} className="mt-4" />
         </div>
       </div>
-      {/* desktop */}
       <div className="hidden lg:block">
         <div className="min-h-[614px] bg-surface-container-low flex items-end">
           <div className="max-w-[1280px] w-full mx-auto px-margin-desktop pb-24 flex flex-col gap-4">

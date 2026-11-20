@@ -7,7 +7,6 @@ export interface RouteProgressBarProps {
   minVisibleMs?: number;
 }
 
-/** 3px gold sweep at the top during client navigations (after 200ms, ≥400ms once shown). */
 export function RouteProgressBar({ active, delayMs = 200, minVisibleMs = 400 }: RouteProgressBarProps) {
   const visible = useDelayedFlag(active, { delayMs, minVisibleMs });
   if (!visible) return null;

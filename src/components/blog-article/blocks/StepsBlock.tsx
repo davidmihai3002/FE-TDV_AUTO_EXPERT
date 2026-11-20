@@ -1,6 +1,5 @@
 import type { StepsBlockData } from '@/types';
 
-/** Numbers come from the index (not stored). Dots alternate blue / gold. */
 export function StepsBlock({ block }: { block: StepsBlockData }) {
   return (
     <ol className="flex flex-col gap-4 my-md border-l border-surface-variant pl-4">

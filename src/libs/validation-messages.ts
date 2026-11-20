@@ -1,4 +1,3 @@
-/** Single Romanian source for FE validation and for mapping BE `issues[]` (ticket 01 §3.8). */
 export const VALIDATION_MESSAGES = {
   required: 'Câmp obligatoriu',
   phone: 'Număr de telefon invalid. Exemplu: 0712 345 678',
@@ -17,7 +16,6 @@ export const VALIDATION_MESSAGES = {
 
 export const REQUIRED_LEGEND = 'Câmpurile marcate cu * sunt obligatorii.';
 
-/** Mirrors the BE rule (plan §9 D3): strip spaces/dots/dashes, then `^(\+40|0)7\d{8}$`. Mobile numbers only. */
 export function isValidRoPhone(raw: string): boolean {
   return /^(\+40|0)7\d{8}$/.test(raw.replace(/[\s.-]/g, ''));
 }

@@ -27,7 +27,6 @@ const RelatedArticleModel = types.model('RelatedArticle', {
   publishedAt: types.string,
 });
 
-/** `slug` is the identifier (map key); `id` stays a plain string. */
 export const BlogArticleModel = types
   .model('BlogArticle', {
     slug: types.identifier,
@@ -40,7 +39,6 @@ export const BlogArticleModel = types
     updatedAt: types.string,
     readTimeMinutes: types.number,
     coverImage: ImageRef,
-    // read-only render data; frozen avoids modelling the 6-way block union in MST
     content: types.frozen<BlogContentV2>(),
     images: types.frozen<ArticleImage[]>(),
     related: types.array(RelatedArticleModel),
@@ -59,7 +57,6 @@ const isAbort = (e: unknown) => e instanceof ApiError && e.kind === 'abort';
 
 export const BlogArticleStore = types
   .model('BlogArticleStore', {
-    /** cache across navigation, keyed by slug */
     articles: types.map(BlogArticleModel),
     statuses: types.map(types.enumeration<ArticleStatus>('ArticleStatus', ['idle', 'loading', 'loaded', 'notFound', 'error'])),
     errors: types.map(types.frozen<UiError>()),
@@ -79,8 +76,8 @@ export const BlogArticleStore = types
   .actions((self) => {
     const fetchArticle = flow(function* fetchArticle(slug: string) {
       const status = self.statuses.get(slug);
-      if (status === 'loaded' || status === 'notFound') return; // cache hit
-      if (status === 'loading' && self.inFlightSlug === slug) return; // same request in flight (StrictMode)
+      if (status === 'loaded' || status === 'notFound') return;
+      if (status === 'loading' && self.inFlightSlug === slug) return;
       if (self.inFlightSlug && self.inFlightSlug !== slug) {
         self.abort?.abort();
         self.statuses.set(self.inFlightSlug, 'idle');

@@ -18,7 +18,6 @@ function Boom(): never {
   throw new Error('Test crash from /__states');
 }
 
-/** DEV only (/__states): every loading/error state, for QA without breaking the API. */
 export default function StatesPreviewPage() {
   const [tab, setTab] = useState<Tab>('error-404');
   const [crash, setCrash] = useState(false);

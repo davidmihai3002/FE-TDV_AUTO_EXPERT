@@ -1,10 +1,5 @@
 import { useSyncExternalStore } from 'react';
 
-/**
- * Shared "hide the sticky chrome on scroll down" state (article header bar + Contents bar read the same value).
- * Hidden only when scrolling down past `THRESHOLD`; shown again on any upward scroll. `setHideOnScrollPinned(true)`
- * keeps it visible (e.g. focus inside the header, TOC menu open).
- */
 const THRESHOLD = 100;
 let hidden = false;
 let pinned = false;

@@ -23,7 +23,6 @@ export const FOOTER_LEGAL: readonly { label: string; settingsKey: keyof Pick<Sit
 
 export const FOOTER_TITLES = { explore: 'Explorează', resources: 'Resurse', contact: 'Contact' } as const;
 
-/** Plan §9 D3: "Programează o lecție" always goes to /flota (booking is per car there). */
 export const CTA = {
   book: { label: 'Programează o lecție', to: ROUTES.fleet },
   calculate: { label: 'Nu ești sigur? Calculează prețul', to: ROUTES.pricing },

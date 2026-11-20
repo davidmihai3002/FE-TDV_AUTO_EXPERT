@@ -22,11 +22,9 @@ export interface FleetCardProps {
   showStats?: boolean;
   showInstructor?: boolean;
   onBook: (car: FleetCarInstance) => void;
-  /** Registers the CTA so focus can return to it when the dialog closes. */
   bookButtonRef?: (el: HTMLButtonElement | null) => void;
 }
 
-/** One card, two anatomies: mobile meta row below md, desktop spec table from md. */
 export const FleetCard = observer(function FleetCard({
   car,
   priority = 'lazy',
@@ -73,7 +71,6 @@ export const FleetCard = observer(function FleetCard({
           <span className="md:text-secondary-container">{car.carName}</span>
         </h2>
 
-        {/* desktop spec table */}
         <dl className={`hidden md:block space-y-3 flex-grow ${showInstructor && car.instructor ? 'mb-6' : 'mb-12'}`}>
           <FleetSpecRow icon="settings" label={FLEET_COPY.spec.transmission} value={car.transmissionText} />
           {car.horsepower != null && (
@@ -89,7 +86,6 @@ export const FleetCard = observer(function FleetCard({
           {showStats && <FleetCardStats successRate={car.successRate} averageGrade={car.averageGrade} layout="rows" />}
         </dl>
 
-        {/* mobile meta row */}
         <dl className="md:hidden flex flex-wrap items-center gap-x-6 gap-y-2 mt-2 text-label-sm text-on-surface-variant">
           <div className="flex items-center gap-2">
             <dt className="sr-only">{FLEET_COPY.spec.transmission}</dt>

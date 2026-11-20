@@ -2,7 +2,6 @@ import { Button } from '@/components/ui';
 import { ROUTES } from '@/config';
 import { ARTICLE_COPY } from './copy';
 
-/** Fixed bottom bar (<lg). The layout adds bottom padding so it never covers content or the footer. */
 export function MobileArticleCtaBar() {
   const c = ARTICLE_COPY.cta.bar;
   return (

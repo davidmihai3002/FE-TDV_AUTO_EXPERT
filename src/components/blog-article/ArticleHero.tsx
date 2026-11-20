@@ -5,10 +5,6 @@ import { ArticleAvatar } from './ArticleAvatar';
 import { ArticleBreadcrumb } from './ArticleBreadcrumb';
 import { ARTICLE_COPY } from './copy';
 
-/**
- * Mobile (<lg): 288px image, content overlapping by 64px. Desktop: full-bleed cover with bottom-aligned content.
- * One H1 for both: only class names switch between breakpoints.
- */
 export function ArticleHero({ article }: { article: BlogArticleInstance }) {
   const { author, category, coverImage } = article;
   const readTime = (
@@ -36,7 +32,6 @@ export function ArticleHero({ article }: { article: BlogArticleInstance }) {
         <div className="lg:max-w-[768px]">
           <ArticleBreadcrumb title={article.title} />
 
-          {/* mobile chips: category + ≤2 tags */}
           <div className="flex flex-wrap gap-2 mb-4 lg:hidden">
             {category && (
               <span className="bg-primary-container text-on-primary-container px-2 py-1 rounded-xs text-label-sm">
@@ -49,7 +44,6 @@ export function ArticleHero({ article }: { article: BlogArticleInstance }) {
               </span>
             ))}
           </div>
-          {/* desktop chips: category (uppercase) + read time */}
           <div className="hidden lg:flex items-center gap-4 mb-md">
             {category && (
               <span className="bg-primary-container text-on-primary-container px-3 py-1 rounded-xs text-label-sm font-bold uppercase tracking-wider">
@@ -63,7 +57,6 @@ export function ArticleHero({ article }: { article: BlogArticleInstance }) {
             {article.title}
           </h1>
 
-          {/* mobile meta row */}
           <div className="flex items-center gap-4 text-label-md text-on-surface-variant border-b border-surface-variant pb-md mb-md lg:hidden">
             <span className="flex items-center gap-2">
               <ArticleAvatar author={author} size={32} decorative />
@@ -71,7 +64,6 @@ export function ArticleHero({ article }: { article: BlogArticleInstance }) {
             </span>
             {readTime}
           </div>
-          {/* desktop author row */}
           <div className="hidden lg:flex items-center gap-4 border-t border-surface-variant pt-md mt-md">
             <ArticleAvatar author={author} size={48} />
             <div>

@@ -4,10 +4,8 @@ import type { BlogListItem, LandingResponse, LandingSection, Paginated } from '@
 
 const Status = types.enumeration('LandingStatus', ['idle', 'loading', 'success', 'error']);
 
-/** Landing content (one request) + the 3 latest posts (04's GET /blogs, separate status so it can't blank the page). */
 export const LandingStore = types
   .model('LandingStore', {
-    // read-only render data
     content: types.maybeNull(types.frozen<LandingResponse>()),
     status: types.optional(Status, 'idle'),
     latestPosts: types.optional(types.frozen<BlogListItem[]>(), []),

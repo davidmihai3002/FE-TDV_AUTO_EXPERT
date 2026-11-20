@@ -1,7 +1,6 @@
 import { Container, PageTitle } from '@/components/ui';
 import { pageTitle } from '@/config';
 
-/** Temporary page body until the page's own ticket lands. */
 export function PlaceholderPage({ title, documentTitle }: { title: string; documentTitle?: string }) {
   return (
     <Container className="py-xl">

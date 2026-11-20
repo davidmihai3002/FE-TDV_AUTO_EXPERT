@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Icon } from '@/components/ui';
 import { ARTICLE_COPY } from './copy';
 
-/** Native share sheet when available; otherwise copies the URL and announces "Link copiat". */
 export function ArticleShareButton({ className }: { className?: string }) {
   const [message, setMessage] = useState('');
 
@@ -18,7 +17,7 @@ export function ArticleShareButton({ className }: { className?: string }) {
       setMessage(ARTICLE_COPY.share.copied);
       window.setTimeout(() => setMessage(''), 3000);
     } catch (e) {
-      if (e instanceof DOMException && e.name === 'AbortError') return; // user closed the sheet
+      if (e instanceof DOMException && e.name === 'AbortError') return;
       if (import.meta.env.DEV) console.warn('[share] failed', e);
     }
   }

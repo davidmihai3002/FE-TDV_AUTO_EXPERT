@@ -9,7 +9,6 @@ export interface SectionHeadingProps {
   eyebrow?: string;
   eyebrowIcon?: string;
   eyebrowTone?: 'blue' | 'gold';
-  /** The desktop design has no eyebrow; show it from md up only when asked. */
   eyebrowOnDesktop?: boolean;
   action?: { label: string; to: string; mobileLabel?: string };
   actionOnMobile?: boolean;
@@ -82,7 +81,6 @@ export function SectionHeading({
 
 export interface PageTitleProps {
   children: ReactNode;
-  /** Text rendered after the title in brand gold. */
   accent?: string;
   className?: string;
 }

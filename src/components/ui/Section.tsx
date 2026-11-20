@@ -7,7 +7,6 @@ export interface SectionProps extends HTMLAttributes<HTMLElement> {
   spacing?: 'none' | 'md' | 'xl';
   bordered?: boolean;
   containerSize?: ContainerProps['size'];
-  /** id of the heading that labels this section */
   labelledBy?: string;
 }
 

@@ -14,7 +14,6 @@ export interface ApiIssue {
 
 export interface ApiErrorBody {
   statusCode: number;
-  /** English, developer-facing (string[] for some validation errors). Never shown to users. */
   message: string | string[];
   error: string;
   path?: string;

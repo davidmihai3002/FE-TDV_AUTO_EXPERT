@@ -1,6 +1,5 @@
 import type { ContentBlock, HeadingBlockData, TocItem } from '@/types';
 
-/** TOC = level-2 headings, so it can never drift from the content. */
 export function buildToc(blocks: ContentBlock[]): TocItem[] {
   return blocks
     .filter((b): b is HeadingBlockData => b.type === 'heading' && b.level === 2)
@@ -12,7 +11,6 @@ export interface ArticleSection {
   blocks: ContentBlock[];
 }
 
-/** Blocks before the first h2 → `intro`; each h2 starts a section holding everything up to the next h2 (h3s stay inside). */
 export function groupSections(blocks: ContentBlock[]): { intro: ContentBlock[]; sections: ArticleSection[] } {
   const intro: ContentBlock[] = [];
   const sections: ArticleSection[] = [];
@@ -28,7 +26,6 @@ export function groupSections(blocks: ContentBlock[]): { intro: ContentBlock[]; 
   return { intro, sections };
 }
 
-/** Same rules as the BE read-time util (used for JSON-LD wordCount). */
 export function extractBlockText(block: ContentBlock): string[] {
   switch (block.type) {
     case 'paragraph':

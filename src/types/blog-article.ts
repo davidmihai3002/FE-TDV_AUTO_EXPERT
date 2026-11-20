@@ -1,6 +1,5 @@
 import type { BlogCategoryRef } from './blogs';
 
-/** Mirrors the BE zod schema (source of truth): BE-TDV src/types/blogs/blog-content-schema.ts */
 export interface ParagraphBlockData { type: 'paragraph'; id: string; variant: 'lead' | 'body'; text: string }
 export interface HeadingBlockData { type: 'heading'; id: string; level: 2 | 3; text: string; iconName?: string | null }
 export interface ChecklistBlockData {
@@ -20,7 +19,6 @@ export interface CalloutBlockData {
   quote?: boolean;
 }
 export interface ArticleImageRef { url: string; alt: string; width: number | null; height: number | null }
-/** As returned by GET /blogs/:slug: the image is embedded (hydrated). */
 export interface FigureBlockData {
   type: 'figure';
   id: string;

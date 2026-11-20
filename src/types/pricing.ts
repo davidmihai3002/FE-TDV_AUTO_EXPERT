@@ -55,7 +55,6 @@ export interface QuoteBreakdown {
   computedAt: string;
 }
 
-/** View model for the breakdown rows (desktop panel + mobile disclosure). */
 export interface QuoteBreakdownVM {
   vehicleLabel: string;
   rateFormatted: string;

@@ -8,7 +8,6 @@ export interface SectionEyebrowProps {
   className?: string;
 }
 
-/** Mobile-only eyebrow line ("Metodologie", "Resurse utile", …). */
 export function SectionEyebrow({ icon, label, tone, className = 'md:hidden' }: SectionEyebrowProps) {
   return (
     <p

@@ -5,13 +5,11 @@ import type { TocItem } from '@/types';
 import { ARTICLE_COPY } from './copy';
 import { jumpToSection } from './toc-scroll';
 
-/** Mobile sticky disclosure; follows the article header (top 72px, or 0 while it is hidden). */
 export function ArticleTocBar({ items, activeId, headerHidden }: { items: TocItem[]; activeId?: string; headerHidden: boolean }) {
   const [open, setOpen] = useState(false);
   const menuId = useId();
   const toggleRef = useRef<HTMLButtonElement>(null);
 
-  // keep the header visible while the menu is open
   useEffect(() => {
     setHideOnScrollPinned(open);
     return () => setHideOnScrollPinned(false);

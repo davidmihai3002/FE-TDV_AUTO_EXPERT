@@ -10,7 +10,6 @@ const initials = (name: string) =>
     .map((p) => p[0]?.toUpperCase())
     .join('');
 
-/** True circle (01 maps `rounded-full` to 12px, so use an explicit 9999px radius). Initials when there is no photo. */
 export function ArticleAvatar({ author, size, decorative = false, className }: {
   author: ArticleAuthor;
   size: 32 | 48;

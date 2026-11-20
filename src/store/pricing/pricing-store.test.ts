@@ -3,7 +3,6 @@ import { describe, expect, it, vi } from 'vitest';
 import type { PricingOptions, PricingVehicle } from '@/types';
 import { PricingStore } from './pricing-store';
 
-// the store schedules a debounced POST /pricing/quote; keep tests offline
 vi.stubGlobal('window', { setTimeout: () => 0, clearTimeout: () => undefined });
 
 const car = (slug: string, carName: string, transmission: 'manual' | 'automatic', fuel: 'petrol' | 'electric'): PricingVehicle => ({
@@ -77,7 +76,7 @@ describe('PricingStore', () => {
 
   it('ignores unavailable choices', () => {
     const s = ready();
-    s.setFuel('electric'); // not available with manual
+    s.setFuel('electric');
     expect(s.selection.fuel).toBe('petrol');
   });
 

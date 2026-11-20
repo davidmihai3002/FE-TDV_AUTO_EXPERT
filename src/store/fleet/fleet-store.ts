@@ -20,7 +20,6 @@ export const FleetStore = types
     get hasActiveFilters(): boolean {
       return Object.values(self.filters).some(Boolean);
     },
-    /** All active cars regardless of filters (facets ignore filters). */
     get overallTotal(): number {
       return self.facets ? Object.values(self.facets.transmission).reduce((a, b) => a + b, 0) : self.total;
     },
@@ -39,7 +38,7 @@ export const FleetStore = types
   }))
   .actions((self) => ({
     fetch: flow(function* fetch(filters: FleetFilters = self.filters) {
-      self.abort?.abort(); // fast chip clicking: never show stale results
+      self.abort?.abort();
       const ctrl = new AbortController();
       self.abort = ctrl;
       self.filters = filters;

@@ -1,7 +1,6 @@
 import { Icon } from '@/components/ui';
 import type { HeadingBlockData } from '@/types';
 
-/** `tabIndex=-1` so a TOC jump can move focus here. h2: icon on desktop (bar fallback), gold bar on mobile. */
 export function HeadingBlock({ block }: { block: HeadingBlockData }) {
   if (block.level === 3) {
     return (

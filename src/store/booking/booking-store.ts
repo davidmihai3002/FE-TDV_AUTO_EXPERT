@@ -41,7 +41,6 @@ export const BookingStore = types
     draft: types.optional(BookingDraftModel, {}),
     car: types.maybeNull(types.frozen<FleetCar>()),
     carStatus: types.optional(types.enumeration(['idle', 'loading', 'ready']), 'idle'),
-    /** Unknown/inactive deep-link car; shown as an inline notice above the grid until dismissed. */
     notice: types.maybeNull(types.frozen<NoticeKind>()),
     licenseCategory: types.maybeNull(types.string),
     source: types.optional(types.enumeration(['card', 'deeplink']), 'card'),
@@ -73,7 +72,6 @@ export const BookingStore = types
     get lessonOptions(): number[] {
       return withExtraOption(DEFAULT_LESSON_OPTIONS, self.draft.lessonsCount);
     },
-    /** Summary alert after a submit attempt with invalid fields. */
     get showValidationSummary(): boolean {
       return self.status === 'error' && !self.submitError && Object.keys(self.fieldErrors).length > 0;
     },
@@ -97,7 +95,7 @@ export const BookingStore = types
         self.estimateStatus = 'ready';
       } catch (e) {
         if (isAbortError(e)) return;
-        self.estimate = null; // hidden; never blocks submit
+        self.estimate = null;
         self.estimateStatus = 'error';
       }
     });
@@ -110,8 +108,7 @@ export const BookingStore = types
         self.estimateStatus = 'idle';
         return;
       }
-      if (!self.estimate) self.estimateStatus = 'loading'; // refetch keeps the previous value (no flicker)
-      // flows must run as store actions: call the public action (a timer has no MST context)
+      if (!self.estimate) self.estimateStatus = 'loading';
       self.estimateTimer = window.setTimeout(
         () => void (self as unknown as { fetchEstimate(n: number): Promise<void> }).fetchEstimate(n),
         300,
@@ -137,9 +134,8 @@ export const BookingStore = types
     return {
       fetchEstimate,
       open,
-      /** `?rezerva=<slug>`: use the loaded fleet first, else GET /fleet/:slug (car may be filtered out). */
       openForSlug: flow(function* openForSlug(slug: string, prefill: BookingPrefill) {
-        if (self.car?.slug === slug && self.carStatus === 'ready') return; // already open (e.g. StrictMode re-run)
+        if (self.car?.slug === slug && self.carStatus === 'ready') return;
         const local = getRoot<{ fleet: FleetStoreInstance }>(self).fleet.findBySlug(slug);
         if (local) {
           open(getSnapshot(local) as FleetCar, prefill, 'deeplink');
@@ -161,7 +157,7 @@ export const BookingStore = types
       close() {
         clearEstimateWork();
         self.carAbort?.abort();
-        if (self.status === 'success') self.draft.resetAll(); // fresh form next time
+        if (self.status === 'success') self.draft.resetAll();
         self.car = null;
         self.carStatus = 'idle';
         self.status = 'idle';
@@ -173,7 +169,6 @@ export const BookingStore = types
       },
       setField<K extends keyof BookingDraft>(key: K, value: BookingDraft[K]) {
         self.draft.set(key, value);
-        // live re-validation only for fields that already show an error
         if (key !== 'website' && self.fieldErrors[key as BookingField]) {
           const next = validateBookingDraft(getSnapshot(self.draft) as BookingDraft)[key as BookingField];
           self.fieldErrors = pickDefined({ ...self.fieldErrors, [key]: next });
@@ -191,7 +186,7 @@ export const BookingStore = types
         self.fieldErrors = errors;
         self.submitError = null;
         if (Object.keys(errors).length) {
-          self.status = 'error'; // view shows the summary and focuses firstInvalidField
+          self.status = 'error';
           return;
         }
         self.status = 'submitting';
@@ -205,7 +200,6 @@ export const BookingStore = types
           if (Object.keys(mapped).length) {
             self.fieldErrors = mapped;
           } else {
-            // honeypot / unknown 400s also land here: generic, never reveal
             self.submitError =
               err?.status === 429 ? 'rateLimited' : err?.status === 404 ? 'carUnavailable' : 'generic';
           }

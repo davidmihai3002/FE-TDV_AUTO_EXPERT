@@ -1,10 +1,8 @@
 @import "tailwindcss";
 
-/* Site is dark-only; <html class="dark"> is kept for parity with the Stitch markup. */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* ---------- colours (Stitch tailwind.config, identical across screens) ---------- */
   --color-background: #041329;
   --color-on-background: #d6e3ff;
   --color-surface: #041329;
@@ -26,7 +24,7 @@
 
   --color-primary: #fff6df;
   --color-on-primary: #3a3000;
-  --color-primary-container: #ffd700; /* brand gold */
+  --color-primary-container: #ffd700;
   --color-on-primary-container: #705e00;
   --color-primary-fixed: #ffe16d;
   --color-primary-fixed-dim: #e9c400;
@@ -36,7 +34,7 @@
 
   --color-secondary: #82cfff;
   --color-on-secondary: #00344b;
-  --color-secondary-container: #00abec; /* brand blue (override #00aeef, see ticket 01 D7) */
+  --color-secondary-container: #00abec;
   --color-on-secondary-container: #003c55;
   --color-secondary-fixed: #c6e7ff;
   --color-secondary-fixed-dim: #82cfff;
@@ -57,11 +55,9 @@
   --color-error-container: #93000a;
   --color-on-error-container: #ffdad6;
 
-  /* ---------- fonts ---------- */
   --font-headline: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-body);
-  /* aliases so Stitch classes `font-headline-md`, `font-body-md`, `font-label-sm`… work verbatim */
   --font-headline-xl: var(--font-headline);
   --font-headline-lg: var(--font-headline);
   --font-headline-lg-mobile: var(--font-headline);
@@ -71,7 +67,6 @@
   --font-label-md: var(--font-body);
   --font-label-sm: var(--font-body);
 
-  /* ---------- typescale ---------- */
   --text-headline-xl: 48px;
   --text-headline-xl--line-height: 56px;
   --text-headline-xl--letter-spacing: -0.02em;
@@ -100,7 +95,6 @@
   --text-label-sm--line-height: 16px;
   --text-label-sm--font-weight: 500;
 
-  /* ---------- spacing (named; numeric scale keeps Tailwind's 4px base) ---------- */
   --spacing-xs: 4px;
   --spacing-base: 8px;
   --spacing-sm: 12px;
@@ -111,25 +105,18 @@
   --spacing-margin-mobile: 16px;
   --spacing-margin-desktop: 64px;
 
-  /*
-   * Tailwind v4 gotcha (ticket 01 §3.1): `max-w-*` resolves --max-width-* → --spacing-* → --container-*, so the
-   * named spacing tokens xs/sm/md/lg/xl would win (`max-w-md` = 24px). Pin the container widths Stitch markup uses.
-   */
   --max-width-xs: 20rem;
   --max-width-sm: 24rem;
   --max-width-md: 28rem;
   --max-width-lg: 32rem;
   --max-width-xl: 36rem;
 
-  /* ---------- radii (Stitch config, NOT Tailwind defaults; ticket 01 §3.9 D2) ---------- */
-  --radius-xs: 2px;   /* Stitch `rounded` / DEFAULT */
-  --radius-lg: 4px;   /* Stitch `rounded-lg`, cards */
-  --radius-xl: 8px;   /* Stitch `rounded-xl`, media, mobile buttons/cards */
-  --radius-2xl: 16px; /* mobile CTA banner */
-  --radius-pill: 12px; /* Stitch `rounded-full` (0.75rem): badges, chips, logo */
-  /* Tailwind `rounded-full` stays 9999px for real circles */
+  --radius-xs: 2px;
+  --radius-lg: 4px;
+  --radius-xl: 8px;
+  --radius-2xl: 16px;
+  --radius-pill: 12px;
 
-  /* ---------- shadows ---------- */
   --shadow-deep: 0 20px 40px rgba(0, 0, 0, 0.5);
   --shadow-deep-mobile: 0 10px 30px rgba(0, 0, 0, 0.5);
   --shadow-glow: 0 0 15px rgba(255, 215, 0, 0.3);
@@ -175,7 +162,6 @@
   }
 }
 
-/* Material Symbols base */
 .material-symbols-outlined {
   font-family: "Material Symbols Outlined";
   font-weight: normal;
@@ -195,7 +181,6 @@
   font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
 }
 
-/* Landing hero "technical grid" background */
 @utility bg-grid {
   background-image:
     linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
@@ -203,8 +188,6 @@
   background-size: 40px 40px;
 }
 
-
-/* Horizontal scrollers without a visible scrollbar (blog chips, ticket 04) */
 @utility hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -213,7 +196,6 @@
   }
 }
 
-/* Romanian quotation marks for quoted callouts (ticket 05): data text has no quote marks */
 .article-quote {
   quotes: "„" "”";
 }
@@ -224,7 +206,6 @@
   content: close-quote;
 }
 
-/* Pricing calculator (ticket 03): gold slider thumb, wizard step enter animation */
 .pricing-range {
   -webkit-appearance: none;
   appearance: none;
@@ -272,7 +253,6 @@
   }
 }
 
-/* ---------- loading & error states (ticket 07) ---------- */
 @theme {
   --animate-loader-spin-slow: loader-spin 3s linear infinite;
   --animate-loader-spin: loader-spin 2s linear infinite;
@@ -305,7 +285,6 @@
       background-position: -100% 0;
     }
   }
-  /* compositor-only (scaleX) instead of the design's width/left; grows from the left, retracts to the right */
   @keyframes loader-fill {
     0% {
       transform: scaleX(0);
@@ -375,7 +354,6 @@
   }
 }
 
-/* Reduced motion: every animated root carries .motion-static; static fallbacks are styled per component */
 @media (prefers-reduced-motion: reduce) {
   .motion-static,
   .motion-static * {

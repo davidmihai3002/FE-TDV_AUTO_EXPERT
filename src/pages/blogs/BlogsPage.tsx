@@ -21,7 +21,6 @@ import { PAGE_SIZE, useStore } from '@/store';
 const LIST_ID = 'blog-list';
 const GRID_HEADING_ID = 'latest-articles-heading';
 
-/** One DOM instance per section; CSS `order` swaps hero/filters between breakpoints (§2.3). */
 const BlogsPage = observer(function BlogsPage() {
   const { blogsList: store } = useStore();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -49,7 +48,6 @@ const BlogsPage = observer(function BlogsPage() {
     if (nextPages == null) return;
     setSearchParams((sp) => withPages(sp, nextPages), { replace: true });
     setAnnouncement(BLOGS_COPY.a11y.loaded(store.items.length - before));
-    // move focus to the first newly added card's link
     window.requestAnimationFrame(() => {
       document.querySelector<HTMLElement>(`#${LIST_ID} > li:nth-child(${before + 1}) a`)?.focus();
     });
@@ -86,7 +84,6 @@ const BlogsPage = observer(function BlogsPage() {
 
       <BlogsPageHeader title={BLOGS_COPY.pageTitle} subtitle={BLOGS_COPY.pageSubtitle} className="order-1" />
 
-      {/* featured: mobile after the chips, desktop first */}
       {showFeaturedSlot && (featuredLoading || store.showFeatured) && (
         <section className="order-3 md:order-2 w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop md:py-xl">
           {store.showFeatured && store.featured ? (

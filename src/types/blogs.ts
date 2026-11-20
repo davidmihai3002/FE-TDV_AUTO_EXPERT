@@ -1,4 +1,3 @@
-/** Shared with ticket 05 (which may add BlogDetail). */
 export interface BlogCategory {
   id: string;
   slug: string;
@@ -11,7 +10,6 @@ export interface BlogCategoryRef {
   name: string;
 }
 
-/** Listing projection from GET /blogs (no `content`). */
 export interface BlogListItem {
   id: string;
   slug: string;
@@ -20,7 +18,6 @@ export interface BlogListItem {
   image: string;
   imageAlt: string;
   author: string;
-  /** ISO */
   publishedAt: string;
   readTimeMinutes: number;
   isFeatured: boolean;
@@ -29,7 +26,6 @@ export interface BlogListItem {
 
 export type BlogSort = 'newest' | 'oldest';
 
-/** English API params for GET /blogs. */
 export interface BlogListQuery {
   page?: number;
   pageSize?: number;

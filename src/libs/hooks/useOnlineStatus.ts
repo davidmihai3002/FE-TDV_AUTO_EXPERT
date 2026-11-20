@@ -9,7 +9,6 @@ function subscribe(onChange: () => void) {
   };
 }
 
-/** navigator.onLine, updated on 'online' / 'offline' events. */
 export function useOnlineStatus(): boolean {
   return useSyncExternalStore(
     subscribe,

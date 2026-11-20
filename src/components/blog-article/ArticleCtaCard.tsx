@@ -3,7 +3,6 @@ import { Button, Icon } from '@/components/ui';
 import { ROUTES } from '@/config';
 import { ARTICLE_COPY } from './copy';
 
-/** Desktop CTA: booking → /flota (D3), pricing → /preturi. */
 export function ArticleCtaCard() {
   const c = ARTICLE_COPY.cta.card;
   return (

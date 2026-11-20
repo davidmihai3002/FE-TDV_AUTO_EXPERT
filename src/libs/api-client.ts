@@ -8,11 +8,9 @@ export class ApiError extends Error {
   readonly kind: ApiErrorKind;
   readonly status?: number;
   readonly body?: ApiErrorBody;
-  /** x-request-id from the response (shown as "Cod referință" for support) */
   readonly requestId?: string;
   readonly url?: string;
   readonly method?: string;
-  /** parsed Retry-After (429/503), ms */
   readonly retryAfterMs?: number;
 
   constructor(
@@ -47,7 +45,6 @@ export interface RequestOptions {
   query?: Query;
   signal?: AbortSignal;
   timeoutMs?: number;
-  /** GET only: automatic retries for transient failures (default true) */
   retry?: boolean;
 }
 
@@ -74,7 +71,6 @@ function parseRetryAfter(header: string | null): number | undefined {
 
 async function request<T>(method: 'GET' | 'POST', path: string, opts: RequestOptions & { body?: unknown }): Promise<T> {
   const url = `${API_URL}${path}${buildQueryString(opts.query)}`;
-  // per-attempt timeout
   const timeout = AbortSignal.timeout(opts.timeoutMs ?? DEFAULT_TIMEOUT_MS);
   const signal = opts.signal ? AbortSignal.any([opts.signal, timeout]) : timeout;
   const meta = { url, method };
@@ -93,7 +89,6 @@ async function request<T>(method: 'GET' | 'POST', path: string, opts: RequestOpt
   } catch (e) {
     if (e instanceof DOMException && e.name === 'TimeoutError') throw new ApiError('timeout', 'Request timed out', undefined, undefined, meta);
     if (e instanceof DOMException && e.name === 'AbortError') {
-      // AbortSignal.any reports the timeout's reason when the timeout fired first
       if (timeout.aborted && !opts.signal?.aborted) throw new ApiError('timeout', 'Request timed out', undefined, undefined, meta);
       throw new ApiError('abort', 'Request aborted', undefined, undefined, meta);
     }
@@ -125,7 +120,6 @@ async function request<T>(method: 'GET' | 'POST', path: string, opts: RequestOpt
   }
 }
 
-/** GETs retry transient failures (see retry.ts); POSTs never retry. */
 export function apiGet<T>(path: string, opts: RequestOptions = {}): Promise<T> {
   if (opts.retry === false) return request<T>('GET', path, opts);
   return withRetry(() => request<T>('GET', path, opts), { signal: opts.signal });

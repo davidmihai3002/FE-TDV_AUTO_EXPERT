@@ -16,15 +16,10 @@ export interface OptionCardItem {
 export interface OptionCardProps extends OptionCardItem {
   name: string;
   checked: boolean;
-  /** `detailed`: desktop calc-card; `compact`: mobile option-card (128px tall) */
   density: 'detailed' | 'compact';
   onSelect: (value: string) => void;
 }
 
-/**
- * A real radio input (visually hidden, not display:none, so the keyboard works) wrapped in a label.
- * Arrow keys move between options natively; the card shows the input's focus ring.
- */
 export function OptionCard({
   name,
   value,

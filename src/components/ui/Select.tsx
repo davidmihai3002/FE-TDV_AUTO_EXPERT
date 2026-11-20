@@ -13,7 +13,6 @@ export interface SelectOption {
 export interface SelectProps extends FieldBaseProps, Omit<SelectHTMLAttributes<HTMLSelectElement>, 'id' | 'required'> {
   options: SelectOption[];
   placeholder?: string;
-  /** `false` makes the empty option selectable (optional fields, e.g. "Nu știu încă"). */
   placeholderDisabled?: boolean;
   ref?: Ref<HTMLSelectElement>;
 }

@@ -8,7 +8,6 @@ export interface LogoProps {
   className?: string;
 }
 
-/** Logo on a white tile (Stitch `rounded-full` = 12px rounded square, ticket 01 D3). */
 export function Logo({ size = 40, withWordmark = true, wordmark = 'TDV Auto Expert', wordmarkClassName, className }: LogoProps) {
   return (
     <span className={cn('flex items-center', size === 40 ? 'gap-sm' : 'gap-2', className)}>

@@ -32,7 +32,6 @@ import { FLEET_UI } from './fleet.config';
 
 const NOINDEX_PARAMS = [...Object.values(FLEET_PARAM), ...Object.values(BOOKING_PARAM)];
 
-/** The URL is the single source of truth for filters and for which car's BookingDialog is open. */
 const FleetPage = observer(function FleetPage() {
   const { fleet, booking } = useStore();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -41,14 +40,12 @@ const FleetPage = observer(function FleetPage() {
   const bKey = bookingKey(searchParams);
   const bookButtons = useRef(new Map<string, HTMLButtonElement>());
 
-  // Invalid filter values (e.g. ?combustibil=gpl) are removed from the URL; the API never sees them.
   useEffect(() => {
     if (hasInvalidFleetParams(searchParams)) {
       setSearchParams(toFleetSearchParams(filters, searchParams), { replace: true });
     }
   }, [searchParams, filters, setSearchParams]);
 
-  // Only filter keys trigger a refetch (opening the dialog must not).
   useEffect(() => {
     void fleet.fetch(filters);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -61,7 +58,6 @@ const FleetPage = observer(function FleetPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bKey, booking]);
 
-  // Unknown/unavailable deep-link car: show the notice and strip the booking params.
   const { notice } = booking;
   useEffect(() => {
     if (notice) setSearchParams((sp) => withoutBooking(sp), { replace: true });
@@ -74,7 +70,7 @@ const FleetPage = observer(function FleetPage() {
 
   const onCloseDialog = useCallback(() => {
     const slug = booking.car?.slug;
-    booking.close(); // unmount the dialog now so our focus target wins over its "return to opener"
+    booking.close();
     setSearchParams((sp) => withoutBooking(sp), { replace: true });
     window.requestAnimationFrame(() => {
       const target =

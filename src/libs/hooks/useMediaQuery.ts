@@ -12,5 +12,4 @@ export function useMediaQuery(query: string): boolean {
   );
 }
 
-/** Tailwind `md` breakpoint (768px). */
 export const MD_UP = '(min-width: 768px)';

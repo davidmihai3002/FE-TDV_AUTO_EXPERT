@@ -3,7 +3,6 @@ import type { TocItem } from '@/types';
 import { ARTICLE_COPY } from './copy';
 import { jumpToSection } from './toc-scroll';
 
-/** Desktop sticky card. */
 export function ArticleTocSidebar({ items, activeId }: { items: TocItem[]; activeId?: string }) {
   if (!items.length) return null;
   return (

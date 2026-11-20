@@ -7,7 +7,6 @@ export interface CardProps extends HTMLAttributes<HTMLElement> {
   padding?: 'none' | 'sm' | 'md' | 'lg';
   shadow?: 'none' | 'deep';
   interactive?: 'none' | 'glow' | 'lift';
-  /** Media card: no padding wrapper, `overflow-hidden`, enables `group` hover on CardMedia. */
   media?: boolean;
 }
 
@@ -57,10 +56,8 @@ export interface CardMediaProps {
   src: string;
   alt: string;
   aspect?: 'video' | 'square' | 'h-44' | 'h-56' | 'h-64';
-  /** opacity-80 → 100 on card hover */
   dim?: boolean;
   zoom?: boolean;
-  /** gradient from the page background at the bottom */
   overlay?: boolean;
   className?: string;
   children?: ReactNode;

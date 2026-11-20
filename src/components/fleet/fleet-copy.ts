@@ -1,6 +1,5 @@
 import { pluralRo } from '@/libs';
 
-/** Fleet page copy (ticket 06 §5.1). Romanian only. */
 export const FLEET_COPY = {
   meta: {
     title: 'Flota TDV și programare lecții | TDV Auto Expert',

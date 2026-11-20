@@ -11,7 +11,6 @@ export interface FleetImageProps {
   imgClassName?: string;
 }
 
-/** Car photo with a same-size fallback block on load error (keeps card height). */
 export function FleetImage({ src, alt, priority = 'lazy', className, imgClassName }: FleetImageProps) {
   const [failed, setFailed] = useState(false);
   if (failed) {

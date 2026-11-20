@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import { Icon } from '@/components/ui';
 
-/** Desktop section: `<fieldset>` + `<legend>` (blue filled icon, bottom rule). */
 export function PricingSection({ icon, title, children }: { icon: string; title: string; children: ReactNode }) {
   return (
     <fieldset className="flex flex-col gap-md min-w-0">

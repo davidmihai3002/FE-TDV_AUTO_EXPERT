@@ -10,7 +10,6 @@ import { Logo } from './Logo';
 
 const MOBILE_NAV_ID = 'mobile-nav';
 
-/** `variant="article"`: below lg the article header bar replaces this header (route handle, ticket 05). */
 export const Header = observer(function Header({
   variant = 'default',
   closeLabel,
@@ -30,13 +29,11 @@ export const Header = observer(function Header({
   useLockBodyScroll(open);
   useFocusTrap([headerRef, drawerRef], open);
 
-  // Close on route change and when growing past the md breakpoint.
   useEffect(() => ui.closeMobileNav(), [pathname, ui]);
   useEffect(() => {
     if (isDesktop) ui.closeMobileNav();
   }, [isDesktop, ui]);
 
-  // Focus management: first link on open, back to the toggle on close.
   const wasOpen = useRef(false);
   useEffect(() => {
     if (open) {
@@ -96,7 +93,6 @@ export const Header = observer(function Header({
           </Button>
 
           {variant === 'task' ? (
-            // task-focused screen: leave the flow instead of opening the menu (back, or home without history)
             <button
               type="button"
               onClick={() => ((window.history.state as { idx?: number } | null)?.idx ? navigate(-1) : navigate(ROUTES.home))}
@@ -135,7 +131,6 @@ function MobileNav({ open, ref }: { open: boolean; ref: React.Ref<HTMLDivElement
       className={cn(
         'md:hidden fixed inset-x-0 top-[72px] bottom-0 z-40 bg-surface-container-low flex flex-col',
         'px-margin-mobile pt-2 pb-[max(24px,env(safe-area-inset-bottom))] overflow-y-auto',
-        // visibility flips instantly on open (so links are focusable right away) and only after the fade on close
         'ease-out',
         open
           ? 'opacity-100 translate-y-0 visible transition-[opacity,translate] duration-200'

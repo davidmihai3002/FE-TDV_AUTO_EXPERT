@@ -6,11 +6,9 @@ import { FleetSpecRow } from './FleetSpecRow';
 export interface FleetCardStatsProps {
   successRate: number | null;
   averageGrade: number | null;
-  /** `rows`: extra spec rows inside the desktop `<dl>`; `inline`: extra mobile meta items. */
   layout: 'rows' | 'inline';
 }
 
-/** [NOT IN DESIGN] pass rate + average grade. */
 export function FleetCardStats({ successRate, averageGrade, layout }: FleetCardStatsProps) {
   const items = [
     successRate != null && { icon: 'verified', label: FLEET_COPY.stats.successRate, value: formatSuccessRate(successRate) },

@@ -1,6 +1,5 @@
 import { ROUTES } from '@/config';
 
-/** /preturi selection in the URL (values are API enums; the car is identified by slug). */
 export const PRICING_PARAM = {
   category: 'categorie',
   transmission: 'cutie',
@@ -44,7 +43,6 @@ export function toPricingSearchParams(s: {
   return sp;
 }
 
-/** "Rezervă acum" → 06's BookingDialog deep link. */
 export function buildBookingHref(slug: string, lessons: number, categoryCode: string): string {
   const p = new URLSearchParams({ rezerva: slug, lectii: String(lessons), categorie: categoryCode });
   return `${ROUTES.fleet}?${p.toString()}`;

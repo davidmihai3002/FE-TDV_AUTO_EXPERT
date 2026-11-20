@@ -4,13 +4,10 @@ import { SafeImage } from './SafeImage';
 
 export interface HeroProps {
   hero: LandingSection;
-  /** '/flota' (plan §9 D3) */
   bookingHref: string;
-  /** '/preturi' */
   pricingHref: string;
 }
 
-/** One component; desktop/mobile differences via `md:` classes. The page's only H1. */
 export function Hero({ hero, bookingHref, pricingHref }: HeroProps) {
   const extra = hero.extra as { telemetryLabel?: string; telemetryStatus?: string };
   return (
@@ -80,7 +77,6 @@ export function Hero({ hero, bookingHref, pricingHref }: HeroProps) {
 
         {hero.imageUrl && (
           <div className="relative mt-3 md:mt-0 md:col-span-6 md:h-full md:flex md:items-center md:justify-center">
-            {/* desktop */}
             <div aria-hidden className="hidden md:block absolute inset-0 bg-gradient-to-tr from-secondary-container/20 to-primary-container/20 opacity-50 rounded-xl blur-3xl" />
             <SafeImage
               src={hero.imageUrl}
@@ -92,7 +88,6 @@ export function Hero({ hero, bookingHref, pricingHref }: HeroProps) {
               decoding="async"
               className="hidden md:block relative z-10 w-full h-full object-cover rounded-xl drop-shadow-2xl motion-safe:hover:scale-105 motion-safe:transition-transform motion-safe:duration-500 ease-out"
             />
-            {/* mobile */}
             <div className="md:hidden relative rounded-xl overflow-hidden bg-surface-container-low shadow-xl">
               <SafeImage
                 src={hero.imageUrl}

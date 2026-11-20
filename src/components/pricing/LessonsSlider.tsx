@@ -10,7 +10,6 @@ export interface LessonsSliderProps {
   variant: 'desktop' | 'mobile';
 }
 
-/** Native range (←/→ ±step, Home/End) + PageUp/PageDown ±5 steps; `aria-valuetext` reads "15 lecții". */
 export function LessonsSlider({ value, min, max, step, onChange, variant }: LessonsSliderProps) {
   const id = useId();
   const desktop = variant === 'desktop';

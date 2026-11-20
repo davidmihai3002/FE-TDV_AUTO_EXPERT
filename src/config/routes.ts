@@ -1,4 +1,3 @@
-/** Romanian URL paths (plan §9 D1). Page tickets must use these, never string literals. */
 export const ROUTES = {
   home: '/',
   pricing: '/preturi',

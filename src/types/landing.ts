@@ -1,6 +1,5 @@
 import type { BodyType, TransmissionType } from './fleet';
 
-/** Mirrors the BE's landingResponseSchema (GET /landing). */
 export type Accent = 'primary' | 'secondary' | 'tertiary';
 export type LandingSectionKey = 'hero' | 'advantage' | 'fleet' | 'insights' | 'faq' | 'cta';
 

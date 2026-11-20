@@ -2,7 +2,6 @@ import { Fragment } from 'react';
 import { cn } from '@/libs';
 import type { ParagraphBlockData } from '@/types';
 
-/** Plain text only (no HTML); a single `\n` becomes a line break. */
 export function ParagraphBlock({ block }: { block: ParagraphBlockData }) {
   const lines = block.text.split('\n');
   return (

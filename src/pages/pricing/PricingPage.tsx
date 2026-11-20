@@ -23,7 +23,6 @@ import { useStore } from '@/store';
 
 const LG_UP = '(min-width: 1024px)';
 
-/** Desktop (≥1024): one long form + sticky "Estimare live". Below: 5-step wizard + docked quote bar. */
 const PricingPage = observer(function PricingPage() {
   const { pricing: store } = useStore();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -35,7 +34,6 @@ const PricingPage = observer(function PricingPage() {
     return () => store.dispose();
   }, [store]);
 
-  // keep the selection in the URL (shareable, survives reload and Back from /flota)
   const urlSelection = store.urlSelection;
   const targetQuery = store.optionsStatus === 'ready' && urlSelection.vehicleSlug ? toPricingSearchParams(urlSelection).toString() : null;
   useEffect(() => {
@@ -44,7 +42,6 @@ const PricingPage = observer(function PricingPage() {
     }
   }, [targetQuery, searchParams, setSearchParams]);
 
-  // the docked bar must never cover the focused field (mobile)
   useEffect(() => {
     const html = document.documentElement;
     const previous = html.style.scrollPaddingBottom;

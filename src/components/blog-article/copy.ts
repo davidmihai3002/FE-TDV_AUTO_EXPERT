@@ -1,6 +1,5 @@
 import { formatReadTime } from '@/libs';
 
-/** /blog/:slug static copy (ticket 05 §5.1). Romanian only (D1). */
 export const ARTICLE_COPY = {
   breadcrumb: { ariaLabel: 'Fir de navigare', home: 'Acasă', blog: 'Blog' },
   toc: { desktopTitle: 'Cuprins', mobileToggle: 'Cuprins', ariaLabel: 'Cuprinsul articolului' },

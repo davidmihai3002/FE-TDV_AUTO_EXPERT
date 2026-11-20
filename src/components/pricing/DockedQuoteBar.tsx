@@ -19,14 +19,12 @@ export interface DockedQuoteBarProps {
   onReset: () => void;
 }
 
-/** Fixed bottom bar of the wizard (< lg). */
 export function DockedQuoteBar(props: DockedQuoteBarProps) {
   const { breakdown, checkFailed, isFirstStep, isLastStep, canGoNext, bookingHref, bookAriaLabel, onBack, onNext, onReset } = props;
   const total = breakdown?.totalFormatted ?? null;
   const announcement = useAnnouncedTotal(total);
   const [details, setDetails] = useState(false);
 
-  // price change: dip to 50% opacity for 150ms (CSS transition; reduced motion has no transition)
   const [shown, setShown] = useState(total);
   const fading = total !== shown;
   useEffect(() => {

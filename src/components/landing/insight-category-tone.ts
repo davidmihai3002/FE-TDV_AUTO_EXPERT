@@ -1,4 +1,3 @@
-/** Mobile blog-card category colours, keyed by 04's Romanian category slugs (Q5: confirm with design). */
 const TONE: Record<string, string> = {
   'protocoale-de-siguranta': 'text-primary-container',
   'siguranta-rutiera': 'text-primary-container',

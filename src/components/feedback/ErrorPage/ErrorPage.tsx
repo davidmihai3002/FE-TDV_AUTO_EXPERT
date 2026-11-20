@@ -7,19 +7,13 @@ import { useContactInfo } from '../useContactInfo';
 
 export interface ErrorPageProps {
   variant: ErrorVariant;
-  /** "Încearcă din nou" (server/offline). Defaults to window.location.reload(). */
   onRetry?: () => void | Promise<unknown>;
-  /** Outside AppLayout / the router (root crash): own full-height shell, plain <a> links, mobile decorations. */
   standalone?: boolean;
   copy?: Partial<ErrorCopy>;
-  /** shown in the chip; defaults per variant */
   statusCode?: number;
   requestId?: string;
-  /** DEV only: technical details */
   debug?: { message?: string; stack?: string };
-  /** errors that happen without a navigation get role="alert" instead of moving focus */
   announce?: boolean;
-  /** network failure without an HTTP status */
   connectionError?: boolean;
 }
 
@@ -34,7 +28,6 @@ const BTN_SECONDARY = cn(
   'bg-transparent border border-outline text-on-surface hover:bg-surface-container md:border-surface-container-highest md:text-on-surface-variant md:backdrop-blur-sm md:hover:bg-transparent md:hover:border-secondary md:hover:text-secondary',
 );
 
-/** The Stitch "Technical Fault" screen with 404 / 500 / offline variants. One H1 (responsive spans). */
 export function ErrorPage({
   variant,
   onRetry,
@@ -53,7 +46,6 @@ export function ErrorPage({
   const online = useOnlineStatus();
   const contact = useContactInfo();
   const code = statusCode ?? (variant === 'not-found' ? 404 : variant === 'server' && !connectionError ? 500 : undefined);
-  // the real status (502/503/504…) when known; network errors without a status say "Eroare de conexiune"
   const chip =
     variant === 'server' && connectionError
       ? A11Y_COPY.connectionErrorChip
@@ -82,7 +74,6 @@ export function ErrorPage({
     }
   };
 
-  // offline auto-recovery: retry once when the connection comes back
   const wasOffline = useRef(!online);
   useEffect(() => {
     if (variant !== 'offline') return;
@@ -156,13 +147,11 @@ export function ErrorPage({
       <div aria-hidden className="md:hidden absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,rgba(28,42,65,0.4),var(--color-background)_70%)]" />
 
       <div className="relative w-full max-w-sm md:max-w-3xl flex flex-col items-center text-center gap-xl md:gap-0">
-        {/* mobile icon */}
         <div aria-hidden className="md:hidden relative w-32 h-32 flex items-center justify-center animate-loader-glow motion-reduce:[filter:drop-shadow(0_0_16px_rgb(255_215_0/0.35))]">
           <div className="absolute inset-0 border-2 border-primary-container/20 rounded-pill scale-125" />
           <div className="absolute inset-0 border border-primary-container/10 rounded-pill scale-150" />
           <Icon name={copy.icon} filled size={48} className="!text-[100px] !w-[100px] !h-[100px] text-primary-container" />
         </div>
-        {/* desktop icon */}
         <div aria-hidden className="hidden md:flex relative mb-md items-center justify-center">
           <div className="absolute inset-0 bg-primary-container rounded-pill opacity-10 blur-xl" />
           <div className="relative z-10 p-lg bg-surface-container-high border border-outline-variant/30 rounded-pill flex items-center justify-center animate-error-pulse">

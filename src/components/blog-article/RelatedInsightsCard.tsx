@@ -5,7 +5,6 @@ import { ROUTES } from '@/config';
 import type { RelatedArticle } from '@/types';
 import { ARTICLE_COPY } from './copy';
 
-/** Desktop right column. Thumbnails use alt="" (the title is the link name). */
 export function RelatedInsightsCard({ items }: { items: RelatedArticle[] }) {
   const headingId = useId();
   if (!items.length) return null;

@@ -7,11 +7,9 @@ import { BlogImage } from './BlogImage';
 
 export interface BlogCardProps {
   post: BlogListItemInstance;
-  /** `card`: desktop grid card (md+); `row`: compact mobile row */
   variant: 'card' | 'row';
 }
 
-// One tab stop per card: the title link is stretched over the whole card; the ring is drawn on the article.
 const STRETCH = "after:absolute after:inset-0 after:content-[''] focus-visible:outline-none";
 const RING =
   'has-[a:focus-visible]:outline has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-4 has-[a:focus-visible]:outline-primary-container';

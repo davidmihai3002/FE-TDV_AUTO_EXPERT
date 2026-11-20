@@ -9,10 +9,6 @@ export function getFocusable(container: HTMLElement): HTMLElement[] {
   );
 }
 
-/**
- * Keeps Tab / Shift+Tab inside the given containers while `active`.
- * Several containers are treated as one sequence (e.g. header + mobile drawer).
- */
 export function useFocusTrap(containers: RefObject<HTMLElement | null>[], active: boolean): void {
   useEffect(() => {
     if (!active) return;
@@ -34,7 +30,6 @@ export function useFocusTrap(containers: RefObject<HTMLElement | null>[], active
     }
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
-    // containers is a stable array of refs per call site
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active]);
 }

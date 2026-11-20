@@ -6,14 +6,11 @@ import { A11Y_COPY, INLINE_ERROR_COPY } from './copy';
 export interface InlineErrorProps {
   error: UiError;
   onRetry?: () => void | Promise<unknown>;
-  /** replaces the generic server-error title only (offline / not-found keep theirs) */
   title?: string;
-  /** used in the retry button's accessible name */
   section?: string;
   className?: string;
 }
 
-/** Section-level error: the rest of the page keeps working. */
 export function InlineError({ error, onRetry, title, section, className }: InlineErrorProps) {
   const copy = INLINE_ERROR_COPY[error.variant];
   const [busy, setBusy] = useState(false);
@@ -26,7 +23,6 @@ export function InlineError({ error, onRetry, title, section, className }: Inlin
       setBusy(false);
     }
   };
-  // offline auto-recovery: retry once when the connection comes back
   const online = useOnlineStatus();
   const wasOffline = useRef(!online);
   const [announcement, setAnnouncement] = useState('');

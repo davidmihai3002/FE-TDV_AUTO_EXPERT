@@ -4,7 +4,6 @@ import type { CarCategory } from '@/types';
 export interface FleetCardBadgeProps {
   category: CarCategory;
   label?: string | null;
-  /** `card`: mobile style below md, desktop pill from md. `compact`: always the small mobile style. */
   size?: 'card' | 'compact';
   className?: string;
 }

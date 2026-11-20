@@ -1,7 +1,6 @@
 import { Icon } from '@/components/ui';
 import { LOADER_COPY } from '../copy';
 
-/** Desktop gauge: dashed ring (3s/turn) + gold arc (2s/turn, rotated on the <svg> so it spins on its own centre). */
 export function LoaderGauge() {
   return (
     <div aria-hidden className="relative w-48 h-48 mb-lg flex items-center justify-center animate-loader-glow motion-reduce:[filter:drop-shadow(0_0_16px_rgb(255_215_0/0.35))]">
@@ -16,7 +15,6 @@ export function LoaderGauge() {
   );
 }
 
-/** Mobile: two pulsing rounded-square outlines around a tile with settings_b_roll. */
 export function LoaderPulseTile() {
   return (
     <div aria-hidden className="relative w-48 h-48 flex items-center justify-center mb-xl">
@@ -29,7 +27,6 @@ export function LoaderPulseTile() {
   );
 }
 
-/** Desktop indeterminate track: gold highlight sweeping right → left (static centred gradient with reduced motion). */
 export function LoaderSweepTrack() {
   return (
     <div aria-hidden className="relative w-full h-1 bg-surface-container-highest rounded-pill overflow-hidden shadow-lg border border-surface-variant">
@@ -38,7 +35,6 @@ export function LoaderSweepTrack() {
   );
 }
 
-/** Mobile bar: solid gold fill 0 → 100% → 0 with a white glint (static 40% with reduced motion). */
 export function LoaderFillBar() {
   return (
     <div aria-hidden className="w-[80%] max-w-[300px] h-1 bg-surface-container-high rounded-pill overflow-hidden relative shadow-[0_0_15px_rgba(0,0,0,0.5)]">
@@ -59,7 +55,6 @@ export function LoaderTelemetry() {
   );
 }
 
-/** ≥md: radial mesh. <md: technical grid + two pulsing colour blobs. */
 export function LoaderBackdrop() {
   return (
     <>

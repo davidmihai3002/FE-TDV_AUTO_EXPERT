@@ -15,7 +15,6 @@ import type { OptionCardItem } from './OptionCard';
 
 type Density = 'detailed' | 'compact';
 
-/** Cards for one step, derived from the store (data-driven: only fuels that priced cars actually have). */
 export function stepOptions(store: PricingStoreInstance, step: Exclude<StepId, 'lessons'>, density: Density): OptionCardItem[] {
   const detailed = density === 'detailed';
   const s = store.selection;

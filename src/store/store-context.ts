@@ -11,7 +11,6 @@ export function useStore(): RootStoreInstance {
   return store;
 }
 
-/** Store when inside <StoreProvider>, else null (root error boundary renders outside the providers). */
 export function useOptionalStore(): RootStoreInstance | null {
   return useContext(StoreContext);
 }

@@ -11,13 +11,12 @@ export const BookingDraftModel = types
     lessonsCount: types.maybeNull(types.integer),
     message: '',
     gdprConsent: false,
-    website: '', // honeypot
+    website: '',
   })
   .actions((self) => ({
     set<K extends keyof BookingDraft>(key: K, value: BookingDraft[K]) {
       (self as unknown as BookingDraft)[key] = value;
     },
-    /** Keeps contact fields (name/phone/email) when booking another car in the same session. */
     resetBookingFields() {
       self.preferredDate = '';
       self.preferredTimeSlot = '';

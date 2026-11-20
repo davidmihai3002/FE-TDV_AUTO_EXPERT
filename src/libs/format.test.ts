@@ -10,7 +10,6 @@ import {
   tomorrowIso,
 } from './format';
 
-// `~` marks a non-breaking space (U+00A0) in expected strings.
 const nb = (s: string) => s.replace(/~/g, '\u00A0');
 
 describe('formatRon', () => {
@@ -75,7 +74,6 @@ describe('pluralRo', () => {
 describe('misc', () => {
   it('formatReadTime', () => expect(formatReadTime(5)).toBe(nb('5~min~de citit')));
   it('tomorrowIso crosses month in Bucharest time', () => {
-    // 2026-11-30 23:30 UTC is already 1 December in Bucharest → tomorrow is 2 December
     expect(tomorrowIso(new Date('2026-11-30T23:30:00Z'))).toBe('2026-12-02');
     expect(tomorrowIso(new Date('2026-11-18T10:00:00Z'))).toBe('2026-11-19');
   });

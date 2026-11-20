@@ -8,7 +8,6 @@ import {
   validateBookingDraft,
 } from './booking-validation';
 
-// 22:30 UTC on 18 Nov = 00:30 on 19 Nov in Bucharest
 const NOW = new Date('2026-11-18T22:30:00Z');
 
 const draft = (over: Partial<BookingDraft> = {}): BookingDraft => ({
@@ -62,8 +61,8 @@ describe('validateBookingDraft', () => {
   });
 
   it.each([
-    ['2026-11-19', 'Alege o dată începând de mâine'], // today in Bucharest
-    ['2027-02-18', 'Alege o dată în următoarele 90 de zile'], // +91
+    ['2026-11-19', 'Alege o dată începând de mâine'],
+    ['2027-02-18', 'Alege o dată în următoarele 90 de zile'],
     ['2026-02-30', 'Dată invalidă'],
   ])('date %s → %s', (preferredDate, message) => {
     expect(validateBookingDraft(draft({ preferredDate }), NOW).preferredDate).toBe(message);

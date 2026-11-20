@@ -12,7 +12,6 @@ export interface BlogImageProps {
   className?: string;
 }
 
-/** Post image with a same-size fallback block when the (mock, possibly expired) URL fails. */
 export function BlogImage({ src, alt, width, height, priority = false, className }: BlogImageProps) {
   const [failed, setFailed] = useState(false);
   if (failed) {

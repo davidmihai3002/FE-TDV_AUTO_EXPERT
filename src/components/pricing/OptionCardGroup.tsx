@@ -13,7 +13,6 @@ export interface OptionCardGroupProps {
 const BASE = { 1: 'grid-cols-1', 2: 'grid-cols-2' } as const;
 const MD = { 2: 'md:grid-cols-2', 3: 'md:grid-cols-3' } as const;
 
-/** Single-select per group (the design script's cross-group clearing bug is not reproduced). */
 export function OptionCardGroup({ name, value, options, onChange, columns, density }: OptionCardGroupProps) {
   return (
     <div className={cn('grid', density === 'detailed' ? 'gap-md' : 'gap-sm', BASE[columns.base], columns.md && MD[columns.md])}>

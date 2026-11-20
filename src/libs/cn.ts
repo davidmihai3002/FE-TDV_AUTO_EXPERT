@@ -1,10 +1,6 @@
 import { clsx, type ClassValue } from 'clsx';
 import { extendTailwindMerge } from 'tailwind-merge';
 
-/**
- * tailwind-merge must know the custom typescale, otherwise it treats `text-headline-md` (font size) and
- * `text-primary` (colour) as the same group and drops one of them.
- */
 const twMerge = extendTailwindMerge({
   extend: {
     classGroups: {

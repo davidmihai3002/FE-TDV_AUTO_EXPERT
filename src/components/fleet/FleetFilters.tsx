@@ -33,7 +33,6 @@ const CHIP =
   'h-11 md:h-9 px-4 py-0 rounded-lg border-outline-variant text-label-md snap-start shrink-0 ' +
   'disabled:opacity-40 disabled:cursor-not-allowed';
 
-/** [NOT IN DESIGN] Single-select chip groups; controlled and presentational. */
 export function FleetFilters({ value, facets, total, overallTotal, onChange, onClear, disabled }: FleetFiltersProps) {
   const active = Object.values(value).some(Boolean);
 

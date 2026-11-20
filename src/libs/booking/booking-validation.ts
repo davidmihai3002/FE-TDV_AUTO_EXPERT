@@ -14,7 +14,6 @@ export const BOOKING_MAX_DAYS_AHEAD = 90;
 export const FULL_NAME_MIN = 3;
 export const FULL_NAME_MAX = 100;
 export const MESSAGE_MAX = 1000;
-/** Mirrors 03's seeded range; the server is authoritative. */
 export const LESSONS_MIN = 15;
 export const LESSONS_MAX = 60;
 
@@ -29,10 +28,8 @@ export const FIELD_ORDER: readonly BookingField[] = [
   'gdprConsent',
 ];
 
-/** Today in Europe/Bucharest as YYYY-MM-DD. */
 export const bucharestTodayIso = (now: Date = new Date()) => toIsoDate(now);
 
-/** Calendar-day arithmetic in UTC (DST-safe). */
 export function addDaysIso(iso: string, n: number): string {
   const [y, m, d] = iso.split('-').map(Number);
   return new Date(Date.UTC(y, m - 1, d + n)).toISOString().slice(0, 10);
@@ -45,7 +42,6 @@ function isRealIsoDate(iso: string): boolean {
   return dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d;
 }
 
-/** Client rules mirror the BE zod schema (POST /bookings). Returns only invalid fields. */
 export function validateBookingDraft(draft: BookingDraft, now: Date = new Date()): BookingFieldErrors {
   const errors: BookingFieldErrors = {};
   const name = draft.fullName.trim();
@@ -93,7 +89,6 @@ export function toCreateBookingRequest(
   };
 }
 
-/** Romanian message per field; reason-specific first. Never shows the English API text. */
 const FIELD_FALLBACK: Record<BookingField, string> = {
   fullName: V.minLength(FULL_NAME_MIN),
   phone: V.phone,
@@ -112,7 +107,6 @@ const REASON_MESSAGE: Record<string, string> = {
   dateInvalid: V.dateInvalid,
 };
 
-/** Maps BE `issues[]` to form fields. Issues on non-form paths (website, fleetId…) are ignored. */
 export function mapApiIssuesToFieldErrors(issues: ApiIssue[] = []): BookingFieldErrors {
   const out: BookingFieldErrors = {};
   for (const issue of issues) {

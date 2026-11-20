@@ -1,7 +1,6 @@
 import { types, type Instance } from 'mobx-state-tree';
 import { ROUTES } from '@/config';
 
-/** Reusable by ticket 05. */
 export const BlogCategoryModel = types.model('BlogCategory', {
   id: types.identifier,
   slug: types.string,

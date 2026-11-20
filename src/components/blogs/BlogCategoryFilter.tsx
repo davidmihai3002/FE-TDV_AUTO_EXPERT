@@ -6,7 +6,6 @@ import type { BlogCategory } from '@/types';
 import { BLOGS_COPY } from './blogs-copy';
 
 export interface BlogCategoryFilterProps {
-  /** already filtered to postCount > 0 by the parent */
   categories: Pick<BlogCategory, 'id' | 'slug' | 'name'>[];
   activeSlug: string | null;
   isLoading?: boolean;
@@ -14,7 +13,6 @@ export interface BlogCategoryFilterProps {
 
 const CHIP_BASE =
   'relative inline-flex items-center px-md py-xs min-h-8 md:min-h-7 rounded-pill text-label-md whitespace-nowrap border transition-colors ' +
-  // ≥44px touch target without changing the visual size
   "after:absolute after:-inset-y-2 after:inset-x-0 after:content-['']";
 const CHIP_ACTIVE = 'bg-primary-container text-on-primary-container border-transparent hover:opacity-90';
 const CHIP_INACTIVE =
@@ -22,13 +20,11 @@ const CHIP_INACTIVE =
   'md:bg-surface-container md:border-surface-container-highest md:text-on-surface-variant md:hover:text-primary';
 const SKELETON_WIDTHS = [96, 140, 128, 96, 150];
 
-/** Crawlable `<Link>` chips; mobile: one horizontal scroller, desktop: wrapping row with a label. */
 export function BlogCategoryFilter({ categories, activeSlug, isLoading }: BlogCategoryFilterProps) {
   const [searchParams] = useSearchParams();
   const labelId = useId();
   const activeRef = useRef<HTMLAnchorElement>(null);
 
-  // keep the active chip visible in the mobile scroller (e.g. deep link to ?categorie=…)
   useEffect(() => {
     if (window.matchMedia('(min-width: 768px)').matches) return;
     activeRef.current?.scrollIntoView({ inline: 'center', block: 'nearest' });
